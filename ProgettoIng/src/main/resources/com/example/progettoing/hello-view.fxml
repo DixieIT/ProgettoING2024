@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="526.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TextField fx:id="currentStateTextField" layoutX="33.0" layoutY="100.0" prefHeight="25.0" prefWidth="125.0" promptText="Current State" />
+        <TextField fx:id="transitionInputTextField" layoutX="195.0" layoutY="100.0" prefHeight="25.0" prefWidth="125.0" promptText="Transition Input" />
+        <TextField fx:id="nextStateTextField" layoutX="357.0" layoutY="100.0" prefHeight="25.0" prefWidth="125.0" promptText="Next State" />
+
+        <Button fx:id="PrintStates" layoutX="195.0" layoutY="404.0" onAction="#printStates" prefHeight="25.0" prefWidth="125.0" text="Print Q" />
+        <Button fx:id="PrintSize" layoutX="467.0" layoutY="404.0" onAction="#printSize" prefHeight="25.0" prefWidth="125.0" text="Print Size" />
+        <Button fx:id="AddState" layoutX="33.0" layoutY="404.0" onAction="#AddState" prefHeight="25.0" prefWidth="125.0" text="Add State" />
+        <Button fx:id="printFinalStates" layoutX="195.0" layoutY="445.0" onAction="#printFinalStates" prefHeight="25.0" prefWidth="125.0" text="Print F" />
+        <Button fx:id="AddFinalState" layoutX="33.0" layoutY="444.0" onAction="#AddFinalState" prefHeight="25.0" prefWidth="125.0" text="Add F State" />
+        <Button fx:id="addTransitionButton" layoutX="33.0" layoutY="155.0" onAction="#addTransition" prefHeight="25.0" prefWidth="125.0" text="Add Transition" />
+      <Button fx:id="PrintDelta" layoutX="467.0" layoutY="445.0" onAction="#printDelta" prefHeight="25.0" prefWidth="125.0" text="Print Delta" />
+    </children>
+</AnchorPane>
