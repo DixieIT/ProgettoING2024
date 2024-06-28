@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Application {
     @Override
@@ -16,19 +14,17 @@ public class Main extends Application {
         String q_0 = "q0";
 
         // Define the set of states
-        String[] Q = {"q0", "q1", "q2"};
+        String[] Q = {"q0"};
 
         // Define the set of final states
-        String[] F = {"q2"};
+        String[] F = {};
 
         // Define the alphabet
         String[] Sigma = {"a", "b"};
 
         // Define the transition function
         String[][] Delta = {
-                {"q1", "q0"},
-                {"q2", "q0"},
-                {"q2", "q2"}
+                {},
         };
 
         // Create an instance of the Automa class
@@ -41,8 +37,9 @@ public class Main extends Application {
         MainController controller = new MainController(automaton);
         fxmlLoader.setController(controller);
 
-        Scene scene = new Scene(fxmlLoader.load(), 900, 500);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load(), 1750, 1000);
+        scene.getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
+        stage.setTitle("Automata");
         stage.setScene(scene);
         stage.show();
     }
