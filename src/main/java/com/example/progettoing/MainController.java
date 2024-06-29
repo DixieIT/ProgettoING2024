@@ -120,8 +120,8 @@ public class MainController implements Initializable {
         q0_arrow.getChildren().addAll(arrow, line, q0);
 
         groupStackPane.getChildren().add(q0_arrow);
-        stateAnchorPane.getChildren().add(groupStackPane);
-        draggableMaker.makeDraggable(groupStackPane, stateAnchorPane);
+        mainAnchorPane.getChildren().add(groupStackPane);
+        draggableMaker.makeDraggable(groupStackPane, stateAnchorPane, true);
         addMovementListeners(groupStackPane);
         stackPanes.add(groupStackPane);
 
@@ -418,8 +418,7 @@ public class MainController implements Initializable {
         stackPane.setId(stateId);
         stackPanes.add(stackPane);
         stackPane.getChildren().add(textField);
-
-        draggableMaker.makeDraggable(stackPane, stateAnchorPane);
+        draggableMaker.makeDraggable(stackPane, stateAnchorPane, false);
         addMovementListeners(stackPane);
 
         return stackPane;

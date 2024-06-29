@@ -9,7 +9,7 @@ public class DraggableMaker {
     private double mouseAnchorX;
     private double mouseAnchorY;
 
-    public void makeDraggable(Node node, AnchorPane stateAnchorPane) {
+    public void makeDraggable(Node node, AnchorPane stateAnchorPane, boolean isQ0) {
 
         node.setOnMousePressed(mouseEvent -> {
             mouseAnchorX = mouseEvent.getX();
@@ -22,14 +22,27 @@ public class DraggableMaker {
             double newY = mouseEvent.getSceneY() - mouseAnchorY - stateAnchorPane.getLayoutY();
 
             // Limiti per il trascinamento basati su stateAnchorPane
-            double minX = 0;
-            double minY = 0;
+            double minX = 2;
+            double minY = 4;
+            if(isQ0) {
+                minY = -45;
+            }
+
             double maxX = stateAnchorPane.getWidth() - node.getBoundsInParent().getWidth();
             double maxY = stateAnchorPane.getHeight() - node.getBoundsInParent().getHeight();
 
             // Applicare i limiti
-            newX = Math.max(minX, Math.min(newX, maxX));
-            newY = Math.max(minY, Math.min(newY, maxY));
+            if(isQ0) {
+                newX = Math.max(minX, Math.min(newX, maxX - 0.5));
+                newY = Math.max(minY, Math.min(newY, maxY + 46));
+            }
+            else {
+                newX = Math.max(minX, Math.min(newX, maxX) - 2);
+                newY = Math.max(minY, Math.min(newY, maxY - 1.5) - 1);
+            }
+
+
+
 
             node.setLayoutX(newX);
             node.setLayoutY(newY);
