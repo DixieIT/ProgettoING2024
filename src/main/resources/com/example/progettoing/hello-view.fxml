@@ -35,47 +35,33 @@
         </AnchorPane>
         <AnchorPane fx:id="stateAnchorPane" prefHeight="580.0" prefWidth="1728.5" style="-fx-border-color: black; -fx-border-width: 2 0 2 0; -fx-border-style: solid; -fx-padding: 10">
             <children>
-
-                <Line endX="-62.0" layoutX="131.0" layoutY="285.0" opacity="0.8" startX="-89.0" strokeWidth="1.8" />
-                <Line endX="-62.0" layoutX="132.0" layoutY="283.0" opacity="0.67" rotate="20.0" startX="-73.0" strokeWidth="1.8"/>
-                <Line endX="-62.0" layoutX="132.0" layoutY="287.0" opacity="0.67" rotate="160.0" startX="-73.0" strokeWidth="1.8" />
                 <!-- State Diagram Area -->
                 <StackPane fx:id="q0" layoutX="68.0" layoutY="188.0" prefHeight="200.0" prefWidth="104.0">
                     <children>
-                        <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="1.8"/>
-                        <Label fx:id="StateText" prefHeight="25.0" prefWidth="73.0" text="q0" style="-fx-font-size: 15; -fx-font-weight: bold" />
+                        <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="1.8" />
+                        <Label fx:id="StateText" prefHeight="25.0" prefWidth="73.0" style="-fx-font-size: 15; -fx-font-weight: bold" text="q0" />
                     </children>
                 </StackPane>
-            <Button layoutX="720.0" layoutY="515.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION" />
-            <Button layoutX="737.0" layoutY="474.0" mnemonicParsing="false" onAction="#addStateButton" text="NEW STATE" />
-            <Button layoutX="754.0" layoutY="550.0" mnemonicParsing="false" onAction="#addStringButton" text="Add a String to the Alphabet Σ" />
               <AnchorPane layoutX="708.0" layoutY="-404.0" prefHeight="200.0" prefWidth="493.0">
                   <children>
                       <!-- Sidebar VBox -->
                       <VBox alignment="BOTTOM_RIGHT" layoutY="554.0" spacing="10">
                           <children>
 
-
-
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                                  <children>
-
-                                  </children>
-                                  <padding>
-                                      <Insets left="10.0" right="10.0" />
-                                  </padding>
-                              </HBox>
                           </children>
                       </VBox>
                   </children>
             </AnchorPane>
-
-                                  <!-- Test String Area -->
-                <TextField fx:id="testStringTextField" layoutX="397.0" layoutY="489.0" prefHeight="25.0" prefWidth="325.0" promptText="Test String" />
-                <Button layoutX="556.0" layoutY="424.0" mnemonicParsing="false" onAction="#handleTestString" text="Test String" />
             </children>
         </AnchorPane>
         <Label fx:id="resultLabel" layoutX="839.0" layoutY="840.0" />
       <ComboBox fx:id="comboBoxAlphabet" layoutX="894.0" layoutY="632.0" promptText="View strings in Σ" />
+      <Button layoutX="1014.0" layoutY="768.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION" />
+      <Button layoutX="1031.0" layoutY="727.0" mnemonicParsing="false" onAction="#addStateButton" text="NEW STATE" />
+      <Button layoutX="1048.0" layoutY="803.0" mnemonicParsing="false" onAction="#addStringButton" text="Add a String to the Alphabet Σ" />
+
+                            <!-- Test String Area -->
+          <TextField fx:id="testStringTextField" layoutX="691.0" layoutY="742.0" prefHeight="25.0" prefWidth="325.0" promptText="Test String" />
+          <Button layoutX="850.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleTestString" text="Test String" />
     </children>
 </AnchorPane>

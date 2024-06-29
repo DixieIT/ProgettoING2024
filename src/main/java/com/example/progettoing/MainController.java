@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,6 +34,9 @@ public class MainController implements Initializable {
 
     @FXML
     private AnchorPane stateAnchorPane;
+
+    @FXML //q0 + arrow
+    StackPane groupStackPane = new StackPane();
 
     @FXML
     private StackPane q0;
@@ -79,8 +83,7 @@ public class MainController implements Initializable {
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        stackPanes = new ArrayList<>(Collections.singletonList(q0));
-
+        stackPanes = new ArrayList<>();
         comboBoxAlphabet.setDisable(true);
 
         Platform.runLater(() -> {
@@ -92,9 +95,35 @@ public class MainController implements Initializable {
         double layoutY = q0.getLayoutY();
         System.out.println("Initial State (q0) LayoutX: " + layoutX + ", LayoutY: " + layoutY);
 
-        addMovementListeners(q0);
 
-        //!
+        Group q0_arrow = new Group();
+
+        Line line = new Line();
+        line.setStartX(20);
+        line.setStartY(290);
+        line.setEndX(65); // Lunghezza della freccia
+        line.setEndY(290);
+        line.setStrokeWidth(2);
+        line.setStroke(Color.BLACK);
+        line.setTranslateX(0);
+        line.setTranslateY(0);
+
+        //unisco in un oggetto Polygon la linea e la punta della freccia
+        Polygon arrow = new Polygon();
+        arrow.getPoints().addAll(new Double[]{
+                line.getEndX(), line.getEndY(),
+                line.getEndX() - 10, line.getEndY() - 5,
+                line.getEndX() - 10, line.getEndY() + 5
+        });
+        arrow.setFill(Color.BLACK);
+        arrow.setTranslateX(7);
+        q0_arrow.getChildren().addAll(arrow, line, q0);
+
+        groupStackPane.getChildren().add(q0_arrow);
+        stateAnchorPane.getChildren().add(groupStackPane);
+        draggableMaker.makeDraggable(groupStackPane, stateAnchorPane);
+        addMovementListeners(groupStackPane);
+        stackPanes.add(groupStackPane);
 
         // Initialize the delta table columns
         currentStateColumn.setCellValueFactory(new PropertyValueFactory<>("currentState"));
@@ -117,7 +146,11 @@ public class MainController implements Initializable {
             String[] parts = key.split("->");
             String[] states = parts[0].split(",");
             StackPane fromState = findStateById(states[0]);
+            if(states[0].equals("q0"))
+                fromState = groupStackPane;
             StackPane toState = findStateById(states[1]);
+            if(states[1].equals("q0"))
+                toState = groupStackPane;
 
             if (fromState != null && toState != null && !states[0].equals(states[1])) {
                 double startX = fromState.getLayoutX() + fromState.getWidth() / 2;
@@ -526,7 +559,12 @@ public class MainController implements Initializable {
             String inputs = entry.getValue();
 
             StackPane currentStatePane = findStateById(currentState);
+            if(currentState.equals("q0"))
+                currentStatePane = groupStackPane;
+
             StackPane nextStatePane = findStateById(nextState);
+            if(nextState.equals("q0"))
+                nextStatePane = groupStackPane;
 
             if (currentStatePane != null && nextStatePane != null) {
                 if (currentState.equals(nextState)) {
@@ -563,12 +601,6 @@ public class MainController implements Initializable {
         }
     }
 
-
-
-
-
-
-
     private void updateTransitionCurve(QuadCurve curve, StackPane fromState, StackPane toState, String input) {
         double startX = fromState.getLayoutX() + fromState.getWidth() / 2;
         double startY = fromState.getLayoutY() + fromState.getHeight() / 2;
@@ -604,9 +636,6 @@ public class MainController implements Initializable {
             updateArrowhead(arrow, endPoint[0], endPoint[1], startX, startY);
         }
     }
-
-
-
 
     private CubicCurve createSelfTransitionLoop(StackPane state, String input) {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
