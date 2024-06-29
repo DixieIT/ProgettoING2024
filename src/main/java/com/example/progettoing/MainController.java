@@ -94,6 +94,8 @@ public class MainController implements Initializable {
 
         addMovementListeners(q0);
 
+        //!
+
         // Initialize the delta table columns
         currentStateColumn.setCellValueFactory(new PropertyValueFactory<>("currentState"));
         inputColumn.setCellValueFactory(new PropertyValueFactory<>("input"));
@@ -170,8 +172,6 @@ public class MainController implements Initializable {
         }
     }
 
-
-
     private void updateSelfTransitionLoop(CubicCurve curve, StackPane state, String input) {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
         double centerY = state.getLayoutY() + state.getHeight() / 2;
@@ -246,6 +246,14 @@ public class MainController implements Initializable {
                     // Impedisce il passaggio del mouse sugli elementi
                     setMouseTransparent(true);
                 }
+            }
+        });
+
+        comboBoxAlphabet.showingProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) { // ComboBox è stato appena aperto
+                // Rimuovi il focus dagli elementi del ComboBox
+                comboBoxAlphabet.getSelectionModel().clearSelection();
+                comboBoxAlphabet.requestFocus(); // Rimuove il focus dal ComboBox stesso
             }
         });
 
@@ -349,25 +357,28 @@ public class MainController implements Initializable {
 
     private StackPane createStatePane(boolean isFinalState) {
         StackPane stackPane = new StackPane();
-        stackPane.setLayoutX(300);
-        stackPane.setLayoutY(300);
+        stackPane.setLayoutX(800);
+        stackPane.setLayoutY(242);
 
-        Circle outerCircle = new Circle(46, Color.WHITE);
+        Circle outerCircle = new Circle(50, Color.WHITE);
         outerCircle.setStroke(Color.BLACK);
-        outerCircle.setStrokeWidth(1);
+        outerCircle.setStrokeWidth(1.8);
 
         stackPane.getChildren().add(outerCircle);
 
         if (isFinalState) {
-            Circle innerCircle = new Circle(40, Color.TRANSPARENT);
+            Circle innerCircle = new Circle(45, Color.TRANSPARENT);
             innerCircle.setStroke(Color.BLACK);
-            innerCircle.setStrokeWidth(1);
+            innerCircle.setStrokeWidth(1.8);
+            innerCircle.setTranslateX(-0.5);
+            innerCircle.setTranslateY(-0.4);
             stackPane.getChildren().add(innerCircle);
         }
 
         String stateId = "q" + automaton.getStateSize();
-        TextField textField = new TextField(stateId);
+        Label textField = new Label(stateId);
         textField.setMaxWidth(30);
+        textField.setStyle("-fx-font-weight: bold; -fx-font-size: 15");
         textField.setAlignment(Pos.CENTER);
         textField.setId("StateText");
 

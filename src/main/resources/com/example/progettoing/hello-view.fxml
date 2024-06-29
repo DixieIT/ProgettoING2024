@@ -35,14 +35,15 @@
         </AnchorPane>
         <AnchorPane fx:id="stateAnchorPane" prefHeight="580.0" prefWidth="1728.5" style="-fx-border-color: black; -fx-border-width: 2 0 2 0; -fx-border-style: solid; -fx-padding: 10">
             <children>
-                <Line endX="-62.0" layoutX="116.0" layoutY="245.0" opacity="0.8" startX="-89.0" strokeWidth="1.27" />
-                <Line endX="-62.0" layoutX="117.0" layoutY="243.0" opacity="0.67" rotate="20.0" startX="-73.0" />
-                <Line endX="-62.0" layoutX="117.0" layoutY="247.0" opacity="0.67" rotate="160.0" startX="-73.0" />
+
+                <Line endX="-62.0" layoutX="131.0" layoutY="285.0" opacity="0.8" startX="-89.0" strokeWidth="1.8" />
+                <Line endX="-62.0" layoutX="132.0" layoutY="283.0" opacity="0.67" rotate="20.0" startX="-73.0" strokeWidth="1.8"/>
+                <Line endX="-62.0" layoutX="132.0" layoutY="287.0" opacity="0.67" rotate="160.0" startX="-73.0" strokeWidth="1.8" />
                 <!-- State Diagram Area -->
-                <StackPane fx:id="q0" layoutX="48.0" layoutY="148.0" prefHeight="200.0" prefWidth="104.0">
+                <StackPane fx:id="q0" layoutX="68.0" layoutY="188.0" prefHeight="200.0" prefWidth="104.0">
                     <children>
-                        <Circle fill="WHITE" radius="46.0" stroke="BLACK" strokeType="INSIDE" />
-                        <TextField fx:id="StateText" prefHeight="25.0" prefWidth="73.0" text="q0" />
+                        <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="1.8"/>
+                        <Label fx:id="StateText" prefHeight="25.0" prefWidth="73.0" text="q0" style="-fx-font-size: 15; -fx-font-weight: bold" />
                     </children>
                 </StackPane>
             <Button layoutX="720.0" layoutY="515.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION" />
