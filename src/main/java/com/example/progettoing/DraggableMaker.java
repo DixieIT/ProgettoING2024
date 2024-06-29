@@ -18,8 +18,8 @@ public class DraggableMaker {
         });
 
         node.setOnMouseDragged(mouseEvent -> {
-            double newX = mouseEvent.getSceneX() - mouseAnchorX;
-            double newY = mouseEvent.getSceneY() - mouseAnchorY;
+            double newX = mouseEvent.getSceneX() - mouseAnchorX - stateAnchorPane.getLayoutX();
+            double newY = mouseEvent.getSceneY() - mouseAnchorY - stateAnchorPane.getLayoutY();
 
             // Limiti per il trascinamento basati su stateAnchorPane
             double minX = 0;

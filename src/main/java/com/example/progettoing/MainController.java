@@ -1,24 +1,24 @@
 package com.example.progettoing;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.control.TextField;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -66,6 +66,8 @@ public class MainController implements Initializable {
     private Map<String, Text> transitionTexts = new HashMap<>();
     private Map<String, Polygon> transitionArrows = new HashMap<>();
     private final DraggableMaker draggableMaker = new DraggableMaker();
+    private boolean isFinalState;
+    private String currentState, nextState, transitionInput;
 
     public MainController(Automa automaton) {
         this.automaton = automaton;
@@ -218,18 +220,52 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void handleAddState(ActionEvent event) {
-        StackPane stackPane = createStatePane(false);
-        mainAnchorPane.getChildren().add(stackPane);
-        automaton.addState();
-        System.out.println(automaton.getQ().size() + "STATI");
+    private void addStateButton(ActionEvent actionEvent) {
+        StackPane newStateStackPane = new StackPane();
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Nuovo stato");
+
+        Label nuovoStato = new Label("Nuovo stato");
+        nuovoStato.setStyle("-fx-font-size: 18; -fx-font-weight: bold");
+        nuovoStato.setTranslateY(-65);
+
+        CheckBox isFinalStateCheckBox = new CheckBox("Stato finale");
+        isFinalStateCheckBox.setTranslateY(10);
+        isFinalStateCheckBox.setTranslateX(-4);
+        isFinalStateCheckBox.setStyle("-fx-font-size: 14");
+
+
+        Button submitNuovoStato = new Button();
+
+        Button rimuoviFocus = new Button();
+        rimuoviFocus.setMaxSize(0, 0);
+        rimuoviFocus.setTranslateX(-20000);
+
+        newStateStackPane.getChildren().addAll(rimuoviFocus, isFinalStateCheckBox, submitNuovoStato, nuovoStato);
+
+        submitNuovoStato.setText("Aggiungi");
+        newStateStackPane.setPrefSize(250, 200);
+        submitNuovoStato.setTranslateY(75);
+        submitNuovoStato.setOnAction(event -> {
+            this.isFinalState = isFinalStateCheckBox.isSelected();
+            handleAddState();
+            ((Stage)newStateStackPane.getScene().getWindow()).close();
+        });
+        Scene popupScene = new Scene(newStateStackPane);
+        popup.setScene(popupScene);
+        popup.showAndWait();
     }
 
     @FXML
-    private void handleAddFinalState(ActionEvent event) {
-        StackPane stackPane = createStatePane(true);
+    private void handleAddState() {
+        StackPane stackPane = createStatePane(isFinalState);
         mainAnchorPane.getChildren().add(stackPane);
-        automaton.addFinalState();
+        if(isFinalState)
+            automaton.addFinalState();
+        else
+            automaton.addState();
+        System.out.println(automaton.getQ().size() + "STATI");
     }
 
     private StackPane createStatePane(boolean isFinalState) {
@@ -266,14 +302,73 @@ public class MainController implements Initializable {
         return stackPane;
     }
 
+    @FXML
+    private void addTransitionButton(ActionEvent actionEvent) {
+        StackPane newTransitionStackPane = new StackPane();
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Nuova transizione");
+
+        TextField label = new TextField();
+        label.setPromptText("Label");
+        label.setTranslateY(22);
+        label.setMaxWidth(130);
+        label.setPrefHeight(30);
+
+        ComboBox<String> from = new ComboBox<>();
+        from.setVisibleRowCount(3);
+        from.setPromptText("From");
+        // Creazione di menu items all'interno del menu File
+        for(String s: automaton.getQ()) {
+            from.getItems().add(s);
+        }
+        from.setTranslateY(-68);
+        from.setPrefSize(135, 30);
+
+
+        ComboBox<String> to = new ComboBox<>();
+        to.setVisibleRowCount(3);
+        to.setPromptText("To");
+
+        // Creazione di menu items all'interno del menu File
+        for(String s: automaton.getQ()) {
+            to.getItems().add(s);
+        }
+        to.setTranslateY(-23);
+        to.setPrefSize(135, 30);
+
+        Button submitNuovaTransizione = new Button();
+
+        Button rimuoviFocus = new Button();
+        rimuoviFocus.setMaxSize(0, 0);
+        rimuoviFocus.setTranslateX(-20000);
+        newTransitionStackPane.getChildren().addAll(rimuoviFocus, submitNuovaTransizione, label, from, to);
+
+        submitNuovaTransizione.disableProperty().bind(Bindings.isEmpty(label.textProperty()).or(from.valueProperty().isNull()).or(to.valueProperty().isNull()));
+        submitNuovaTransizione.setText("Aggiungi");
+        newTransitionStackPane.setPrefSize(270, 200);
+        submitNuovaTransizione.setTranslateY(78);
+
+
+
+        from.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            currentState = newValue;
+        });
+
+        to.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            nextState = newValue;
+        });
+
+        submitNuovaTransizione.setOnAction(event -> {
+            handleAddTransition(currentState, label.getText(), nextState);
+        });
+        Scene popupScene = new Scene(newTransitionStackPane);
+        popup.setScene(popupScene);
+        popup.showAndWait();
+    }
 
     @FXML
-    private void handleAddTransition(ActionEvent event) {
-        //!
-        String currentState = currentStateTextField.getText().trim();
-        String transitionInput = transitionInputTextField.getText().trim();
-        String nextState = nextStateTextField.getText().trim();
-
+    private void handleAddTransition(String currentState, String transitionInput, String nextState) {
         if (!automaton.getSigma().contains(transitionInput) ||
                 !automaton.getQ().contains(currentState) ||
                 !automaton.getQ().contains(nextState)) {
