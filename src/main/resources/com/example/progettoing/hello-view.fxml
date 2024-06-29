@@ -61,18 +61,7 @@
                       <VBox alignment="BOTTOM_RIGHT" layoutY="554.0" spacing="10">
                           <children>
 
-                              <MenuButton fx:id="addNewString" mnemonicParsing="false" prefHeight="35.0" prefWidth="472.0" text="Alphabet (Σ)">
-                                  <items>
-                                      <MenuItem mnemonicParsing="false" text="new String">
-                                          <graphic>
-                                              <TextField fx:id="newStringTextField" prefHeight="25.0" prefWidth="200.0" promptText="New String" />
-                                          </graphic>
-                                      </MenuItem>
-                                  </items>
-                                  <graphic>
-                                      <TextField fx:id="sigmaTextField" editable="false" prefHeight="25.0" prefWidth="200.0" promptText="Sigma" />
-                                  </graphic>
-                              </MenuButton>
+
 
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                   <children>

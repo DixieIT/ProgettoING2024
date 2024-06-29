@@ -81,6 +81,7 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         stackPanes = new ArrayList<>(Collections.singletonList(q0));
 
+        comboBoxAlphabet.setDisable(true);
 
         Platform.runLater(() -> {
             Stage primaryStage = (Stage)mainAnchorPane.getScene().getWindow();
@@ -283,6 +284,8 @@ public class MainController implements Initializable {
         submitNewString.setOnAction(event -> {
             handleAddString(label.getText());
             updateAlphabet();
+            if(comboBoxAlphabet.isDisabled())
+                comboBoxAlphabet.setDisable(false);
             label.clear();
         });
 
@@ -740,7 +743,6 @@ public class MainController implements Initializable {
         if (!newString.isEmpty()) {
             automaton.addString(newString);
         }
-        sigmaTextField.setText(sigma.toString());
     }
 
     @FXML
