@@ -15,6 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane fx:id="mainAnchorPane" prefHeight="869.0" prefWidth="2013.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane layoutY="568.0" prefHeight="266.0" prefWidth="1304.0">
@@ -52,13 +53,15 @@
                 </StackPane>
             <Button layoutX="720.0" layoutY="515.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION"/>
             <Button layoutX="737.0" layoutY="474.0" mnemonicParsing="false" onAction="#addStateButton" text="NEW STATE"/>
+            <Button layoutX="754.0" layoutY="550.0" mnemonicParsing="false" onAction="#addStringButton" text="Add a String to the Alphabet Σ"/>
+            <ComboBox fx:id="comboBoxAlphabet" layoutX="520.0" layoutY="315.0" promptText="View strings in Σ"/>
               <AnchorPane layoutX="708.0" layoutY="-404.0" prefHeight="200.0" prefWidth="493.0">
                   <children>
                       <!-- Sidebar VBox -->
                       <VBox alignment="BOTTOM_RIGHT" layoutY="554.0" spacing="10">
                           <children>
 
-                              <MenuButton fx:id="addNewString" mnemonicParsing="false" prefHeight="35.0" prefWidth="472.0" text="Alphabet">
+                              <MenuButton fx:id="addNewString" mnemonicParsing="false" prefHeight="35.0" prefWidth="472.0" text="Alphabet (Σ)">
                                   <items>
                                       <MenuItem mnemonicParsing="false" text="new String">
                                           <graphic>
@@ -70,11 +73,7 @@
                                       <TextField fx:id="sigmaTextField" editable="false" prefHeight="25.0" prefWidth="200.0" promptText="Sigma" />
                                   </graphic>
                               </MenuButton>
-                              <Button fx:id="addNewString" onAction="#handleAddString" prefHeight="25.0" prefWidth="250.0" text="Add String">
-                                  <VBox.margin>
-                                      <Insets />
-                                  </VBox.margin>
-                        </Button>
+
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                   <children>
 

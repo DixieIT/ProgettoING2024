@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
@@ -43,6 +44,8 @@ public class MainController implements Initializable {
     private TextField transitionInputTextField;
     @FXML
     private TextField nextStateTextField;
+    @FXML
+    private ComboBox<String> comboBoxAlphabet;
 
     @FXML
     private TextField sigmaTextField;
@@ -220,6 +223,83 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    private void updateAlphabet() {
+        while(!comboBoxAlphabet.getItems().isEmpty()) {
+            comboBoxAlphabet.getItems().remove(0);
+        }
+        comboBoxAlphabet.getItems().addAll(automaton.getSigma());
+        comboBoxAlphabet.setVisibleRowCount(15);
+
+        //only view ComboBox
+        comboBoxAlphabet.setCellFactory(param -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    // Imposta il testo dell'elemento
+                    setText(item);
+                    // Disabilita il click sugli elementi
+                    setDisable(true);
+                    // Impedisce il passaggio del mouse sugli elementi
+                    setMouseTransparent(true);
+                }
+            }
+        });
+
+        comboBoxAlphabet.setPromptText("View strings in Σ");
+    }
+
+    @FXML
+    private void addStringButton(ActionEvent actionEvent) {
+        StackPane newStringStackPane = new StackPane();
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Add a String to Σ");
+
+        TextField label = new TextField();
+        label.setPromptText("String");
+        label.setStyle("-fx-font-size: 14");
+        label.setTranslateX(-5);
+        label.setTranslateY(-18);
+        label.setMaxWidth(130);
+        label.setPrefHeight(30);
+
+        Button submitNewString = new Button();
+
+        Button removeFocus = new Button();
+        removeFocus.setMaxSize(0, 0);
+        removeFocus.setTranslateX(-20000);
+
+        submitNewString.disableProperty().bind(Bindings.isEmpty(label.textProperty()));
+        submitNewString.setText("+");
+        submitNewString.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
+        newStringStackPane.setPrefSize(270, 100);
+        submitNewString.setTranslateX(80);
+        submitNewString.setTranslateY(-18.5);
+        submitNewString.setPrefSize(30, 30);
+
+        submitNewString.setOnAction(event -> {
+            handleAddString(label.getText());
+            updateAlphabet();
+            label.clear();
+        });
+
+        Button closeWindow = new Button();
+        closeWindow.setText("Close");
+        closeWindow.setTranslateY(30);
+        closeWindow.setOnAction(event -> {
+            ((Stage)newStringStackPane.getScene().getWindow()).close();
+        });
+
+        newStringStackPane.getChildren().addAll(removeFocus, submitNewString, label, closeWindow);
+        Scene popupScene = new Scene(newStringStackPane);
+        popup.setScene(popupScene);
+        popup.showAndWait();
+    }
+
+    @FXML
     private void addStateButton(ActionEvent actionEvent) {
         StackPane newStateStackPane = new StackPane();
         Stage popup = new Stage();
@@ -232,18 +312,18 @@ public class MainController implements Initializable {
         isFinalStateCheckBox.setStyle("-fx-font-size: 14");
 
 
-        Button submitNuovoStato = new Button();
+        Button submitNewState = new Button();
 
         Button removeFocus = new Button();
         removeFocus.setMaxSize(0, 0);
         removeFocus.setTranslateX(-20000);
 
-        newStateStackPane.getChildren().addAll(removeFocus, isFinalStateCheckBox, submitNuovoStato);
+        newStateStackPane.getChildren().addAll(removeFocus, isFinalStateCheckBox, submitNewState);
 
-        submitNuovoStato.setText("Confirm");
+        submitNewState.setText("Confirm");
         newStateStackPane.setPrefSize(250, 200);
-        submitNuovoStato.setTranslateY(75);
-        submitNuovoStato.setOnAction(event -> {
+        submitNewState.setTranslateY(75);
+        submitNewState.setOnAction(event -> {
             this.isFinalState = isFinalStateCheckBox.isSelected();
             handleAddState();
             ((Stage)newStateStackPane.getScene().getWindow()).close();
@@ -655,8 +735,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void handleAddString(ActionEvent event) {
-        String newString = newStringTextField.getText().trim();
+    private void handleAddString(String newString) {
         Set<String> sigma = automaton.getSigma();
         if (!newString.isEmpty()) {
             automaton.addString(newString);
