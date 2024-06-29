@@ -14,7 +14,18 @@ public class Automa {
         this.q_0 = q_0;
         this.Q = new ArrayList<>(Arrays.asList(Q));
         this.F = new ArrayList<>(Arrays.asList(F));
-        this.Sigma = new HashSet<>(Arrays.asList(Sigma));
+        this.Sigma = new HashSet<>();
+        for(String s: Sigma) {
+            boolean add = true;
+            for(int i = 0; i < s.length(); i++) {
+                if(!Character.isAlphabetic(s.charAt(i))) {
+                     add = false;
+                }
+            }
+            if(add)
+                this.Sigma.add(s);
+        }
+
         this.delta = new HashMap<>();
 
         // Convert Delta array to delta map

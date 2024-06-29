@@ -440,6 +440,7 @@ public class MainController implements Initializable {
 
         submitNewTransition.setOnAction(event -> {
             handleAddTransition(currentState, label.getText(), nextState);
+            ((Stage)newTransitionStackPane.getScene().getWindow()).close();
         });
         Scene popupScene = new Scene(newTransitionStackPane);
         popup.setScene(popupScene);
@@ -464,10 +465,6 @@ public class MainController implements Initializable {
 
         regenerateTransitions();
         populateDeltaTable();
-
-        currentStateTextField.clear();
-        transitionInputTextField.clear();
-        nextStateTextField.clear();
     }
 
 

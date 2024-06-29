@@ -2,9 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -15,16 +14,15 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 
-<?import javafx.scene.control.ComboBox?>
 <AnchorPane fx:id="mainAnchorPane" prefHeight="869.0" prefWidth="2013.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane layoutY="568.0" prefHeight="266.0" prefWidth="1304.0">
+        <AnchorPane layoutY="540.0" prefHeight="296.0" prefWidth="627.0">
             <children>
 
-                                  <!-- TableView Area -->
-                <HBox layoutY="70.0" prefHeight="299.0" prefWidth="1304.0">
+                                        <!-- TableView Area -->
+                <HBox layoutY="70.0" prefHeight="299.0" prefWidth="655.0">
                     <children>
-                        <TableView fx:id="deltaTableView" prefHeight="299.0" prefWidth="652.0">
+                        <TableView fx:id="deltaTableView" prefHeight="299.0">
                             <columns>
                                 <TableColumn fx:id="currentStateColumn" prefWidth="209.60000306367874" text="Current State" />
                                 <TableColumn fx:id="inputColumn" prefWidth="217.59999084472656" text="Input" />
@@ -33,10 +31,6 @@
                         </TableView>
                     </children>
                 </HBox>
-
-                                  <!-- Test String Area -->
-                <TextField fx:id="testStringTextField" layoutX="247.0" layoutY="26.0" prefHeight="25.0" prefWidth="325.0" promptText="Test String" />
-                <Button layoutX="587.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleTestString" text="Test String" />
             </children>
         </AnchorPane>
         <AnchorPane fx:id="stateAnchorPane" prefHeight="580.0" prefWidth="1728.5" style="-fx-border-color: black; -fx-border-width: 2 0 2 0; -fx-border-style: solid; -fx-padding: 10">
@@ -51,10 +45,9 @@
                         <TextField fx:id="StateText" prefHeight="25.0" prefWidth="73.0" text="q0" />
                     </children>
                 </StackPane>
-            <Button layoutX="720.0" layoutY="515.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION"/>
-            <Button layoutX="737.0" layoutY="474.0" mnemonicParsing="false" onAction="#addStateButton" text="NEW STATE"/>
-            <Button layoutX="754.0" layoutY="550.0" mnemonicParsing="false" onAction="#addStringButton" text="Add a String to the Alphabet Σ"/>
-            <ComboBox fx:id="comboBoxAlphabet" layoutX="520.0" layoutY="315.0" promptText="View strings in Σ"/>
+            <Button layoutX="720.0" layoutY="515.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION" />
+            <Button layoutX="737.0" layoutY="474.0" mnemonicParsing="false" onAction="#addStateButton" text="NEW STATE" />
+            <Button layoutX="754.0" layoutY="550.0" mnemonicParsing="false" onAction="#addStringButton" text="Add a String to the Alphabet Σ" />
               <AnchorPane layoutX="708.0" layoutY="-404.0" prefHeight="200.0" prefWidth="493.0">
                   <children>
                       <!-- Sidebar VBox -->
@@ -75,8 +68,13 @@
                       </VBox>
                   </children>
             </AnchorPane>
+
+                                  <!-- Test String Area -->
+                <TextField fx:id="testStringTextField" layoutX="397.0" layoutY="489.0" prefHeight="25.0" prefWidth="325.0" promptText="Test String" />
+                <Button layoutX="556.0" layoutY="424.0" mnemonicParsing="false" onAction="#handleTestString" text="Test String" />
             </children>
         </AnchorPane>
         <Label fx:id="resultLabel" layoutX="839.0" layoutY="840.0" />
+      <ComboBox fx:id="comboBoxAlphabet" layoutX="894.0" layoutY="632.0" promptText="View strings in Σ" />
     </children>
 </AnchorPane>
