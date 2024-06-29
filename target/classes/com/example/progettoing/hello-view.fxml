@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane fx:id="mainAnchorPane" style="--border-color: black;" prefHeight="869.0" prefWidth="2013.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="869.0" prefWidth="2013.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane layoutY="568.0" prefHeight="266.0" prefWidth="1304.0">
             <children>
@@ -34,7 +34,7 @@
                 </HBox>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="stateAnchorPane" prefHeight="567.0" prefWidth="1728.0">
+        <AnchorPane fx:id="stateAnchorPane" style="-fx-border-color: black; -fx-border-width: 2 0 2 0; -fx-border-style: solid; -fx-padding: 10" prefHeight="580.0" prefWidth="1728.5">
             <children>
                 <Line endX="-62.0" layoutX="116.0" layoutY="245.0" opacity="0.8" startX="-89.0" strokeWidth="1.27" />
                 <Line endX="-62.0" layoutX="117.0" layoutY="243.0" opacity="0.67" rotate="20.0" startX="-73.0" />
