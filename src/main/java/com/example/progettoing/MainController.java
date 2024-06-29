@@ -224,13 +224,9 @@ public class MainController implements Initializable {
         StackPane newStateStackPane = new StackPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
-        popup.setTitle("Nuovo stato");
+        popup.setTitle("Add State");
 
-        Label nuovoStato = new Label("Nuovo stato");
-        nuovoStato.setStyle("-fx-font-size: 18; -fx-font-weight: bold");
-        nuovoStato.setTranslateY(-65);
-
-        CheckBox isFinalStateCheckBox = new CheckBox("Stato finale");
+        CheckBox isFinalStateCheckBox = new CheckBox("Final state");
         isFinalStateCheckBox.setTranslateY(10);
         isFinalStateCheckBox.setTranslateX(-4);
         isFinalStateCheckBox.setStyle("-fx-font-size: 14");
@@ -238,13 +234,13 @@ public class MainController implements Initializable {
 
         Button submitNuovoStato = new Button();
 
-        Button rimuoviFocus = new Button();
-        rimuoviFocus.setMaxSize(0, 0);
-        rimuoviFocus.setTranslateX(-20000);
+        Button removeFocus = new Button();
+        removeFocus.setMaxSize(0, 0);
+        removeFocus.setTranslateX(-20000);
 
-        newStateStackPane.getChildren().addAll(rimuoviFocus, isFinalStateCheckBox, submitNuovoStato, nuovoStato);
+        newStateStackPane.getChildren().addAll(removeFocus, isFinalStateCheckBox, submitNuovoStato);
 
-        submitNuovoStato.setText("Aggiungi");
+        submitNuovoStato.setText("Confirm");
         newStateStackPane.setPrefSize(250, 200);
         submitNuovoStato.setTranslateY(75);
         submitNuovoStato.setOnAction(event -> {
@@ -307,7 +303,7 @@ public class MainController implements Initializable {
         StackPane newTransitionStackPane = new StackPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
-        popup.setTitle("Nuova transizione");
+        popup.setTitle("Add Transition");
 
         TextField label = new TextField();
         label.setPromptText("Label");
@@ -337,17 +333,17 @@ public class MainController implements Initializable {
         to.setTranslateY(-23);
         to.setPrefSize(135, 30);
 
-        Button submitNuovaTransizione = new Button();
+        Button submitNewTransition = new Button();
 
-        Button rimuoviFocus = new Button();
-        rimuoviFocus.setMaxSize(0, 0);
-        rimuoviFocus.setTranslateX(-20000);
-        newTransitionStackPane.getChildren().addAll(rimuoviFocus, submitNuovaTransizione, label, from, to);
+        Button removeFocus = new Button();
+        removeFocus.setMaxSize(0, 0);
+        removeFocus.setTranslateX(-20000);
+        newTransitionStackPane.getChildren().addAll(removeFocus, submitNewTransition, label, from, to);
 
-        submitNuovaTransizione.disableProperty().bind(Bindings.isEmpty(label.textProperty()).or(from.valueProperty().isNull()).or(to.valueProperty().isNull()));
-        submitNuovaTransizione.setText("Aggiungi");
+        submitNewTransition.disableProperty().bind(Bindings.isEmpty(label.textProperty()).or(from.valueProperty().isNull()).or(to.valueProperty().isNull()));
+        submitNewTransition.setText("Confirm");
         newTransitionStackPane.setPrefSize(270, 200);
-        submitNuovaTransizione.setTranslateY(78);
+        submitNewTransition.setTranslateY(78);
 
 
 
@@ -359,7 +355,7 @@ public class MainController implements Initializable {
             nextState = newValue;
         });
 
-        submitNuovaTransizione.setOnAction(event -> {
+        submitNewTransition.setOnAction(event -> {
             handleAddTransition(currentState, label.getText(), nextState);
         });
         Scene popupScene = new Scene(newTransitionStackPane);
