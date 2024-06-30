@@ -167,7 +167,7 @@ public class MainController implements Initializable {
                 if(toState.equals(groupStackPane))
                     endY = (toState.getLayoutY() + toState.getHeight() / 2) + 180;
 
-                double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 46);
+                double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 50);
 
                 // Increase the control point distance for a more pronounced curve
                 double controlX = (startX + endPoint[0]) / 2;
@@ -191,7 +191,7 @@ public class MainController implements Initializable {
                 }
 
                 if (arrow != null) {
-                    updateArrowhead(arrow, endPoint[0], endPoint[1], startX + 10, startY);
+                    updateArrowhead(arrow, endPoint[0], endPoint[1], startX, startY);
                 }
 
                 curve.toBack();
@@ -220,6 +220,10 @@ public class MainController implements Initializable {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
         double centerY = state.getLayoutY() + state.getHeight() / 2;
 
+        if(state.equals(groupStackPane)) {
+            centerX = q0.getLayoutX() + q0.getWidth() / 2;
+            centerY = q0.getLayoutY() + q0.getHeight() / 2;
+        }
 
         double loopRadius = 40;
         double stateRadius = 50;
@@ -629,7 +633,7 @@ public class MainController implements Initializable {
         double endX = toState.getLayoutX() + toState.getWidth() / 2;
         double endY = toState.getLayoutY() + toState.getHeight() / 2;
 
-        double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 46);
+        double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 50);
 
         double controlX = (startX + endPoint[0]) / 2;
         double controlY = (startY + endPoint[1]) / 2 + (endX > startX ? -50 : 50);
@@ -715,7 +719,7 @@ public class MainController implements Initializable {
         if(toState.equals(groupStackPane))
             endY = (toState.getLayoutY() + toState.getHeight() / 2) + 180;
 
-        double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 46);
+        double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 50);
 
         // Increase the control point distance for a more pronounced curve
         double controlX = (startX + endPoint[0]) / 2;
@@ -744,7 +748,7 @@ public class MainController implements Initializable {
                 transitionCurve.getEndX() - transitionCurve.getStartX());
 
         text.setX(midX + offsetX * Math.cos(angle));
-        text.setY(midY + offsetY * Math.sin(angle));
+        text.setY(midY + offsetY * Math.sin(angle) - 20);
 
         return text;
     }
@@ -760,7 +764,7 @@ public class MainController implements Initializable {
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
 
-        double arrowHeadSize = 10;
+        double arrowHeadSize = 6;
         Polygon arrow = new Polygon();
         arrow.getPoints().addAll(
                 endX, endY,
@@ -779,7 +783,7 @@ public class MainController implements Initializable {
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
 
-        double arrowHeadSize = 10;
+        double arrowHeadSize = 6;
         arrow.getPoints().setAll(
                 endX, endY,
                 endX - arrowHeadSize * cos - arrowHeadSize * sin, endY - arrowHeadSize * sin + arrowHeadSize * cos,
