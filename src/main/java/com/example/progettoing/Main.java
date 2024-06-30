@@ -20,7 +20,7 @@ public class Main extends Application {
         String[] F = {};
 
         // Define the alphabet
-        String[] Sigma = {};
+        String[] Sigma = {"a", "b"};
 
         // Define the transition function
         String[][] Delta = {

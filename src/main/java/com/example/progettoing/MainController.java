@@ -118,6 +118,7 @@ public class MainController implements Initializable {
         arrow.setFill(Color.BLACK);
         arrow.setTranslateX(7);
         q0_arrow.getChildren().addAll(arrow, line, q0);
+        q0_arrow.setTranslateY(180);
 
         groupStackPane.getChildren().add(q0_arrow);
         mainAnchorPane.getChildren().add(groupStackPane);
@@ -146,17 +147,25 @@ public class MainController implements Initializable {
             String[] parts = key.split("->");
             String[] states = parts[0].split(",");
             StackPane fromState = findStateById(states[0]);
-            if(states[0].equals("q0"))
+            if(states[0].equals("q0")) {
                 fromState = groupStackPane;
+            }
+
             StackPane toState = findStateById(states[1]);
-            if(states[1].equals("q0"))
+            if(states[1].equals("q0")) {
                 toState = groupStackPane;
+            }
 
             if (fromState != null && toState != null && !states[0].equals(states[1])) {
                 double startX = fromState.getLayoutX() + fromState.getWidth() / 2;
                 double startY = fromState.getLayoutY() + fromState.getHeight() / 2;
+                if(fromState.equals(groupStackPane))
+                    startY = (fromState.getLayoutY() + fromState.getHeight() / 2) + 180;
+
                 double endX = toState.getLayoutX() + toState.getWidth() / 2;
                 double endY = toState.getLayoutY() + toState.getHeight() / 2;
+                if(toState.equals(groupStackPane))
+                    endY = (toState.getLayoutY() + toState.getHeight() / 2) + 180;
 
                 double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 46);
 
@@ -197,6 +206,8 @@ public class MainController implements Initializable {
             String[] parts = key.split("->");
             String[] states = parts[0].split(",");
             StackPane fromState = findStateById(states[0]);
+            if(fromState != null && fromState.equals(q0))
+                fromState = groupStackPane;
 
             if (fromState != null && states[0].equals(states[1])) {
                 updateSelfTransitionLoop(curve, fromState, parts[1]);
@@ -209,8 +220,9 @@ public class MainController implements Initializable {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
         double centerY = state.getLayoutY() + state.getHeight() / 2;
 
+
         double loopRadius = 40;
-        double stateRadius = 46;
+        double stateRadius = 50;
 
         curve.setStartX(centerX - stateRadius);
         curve.setStartY(centerY);
@@ -514,16 +526,21 @@ public class MainController implements Initializable {
     private void clearTransitions() {
         for (QuadCurve curve : transitionCurves.values()) {
             mainAnchorPane.getChildren().remove(curve);
+            groupStackPane.getChildren().remove(curve);
         }
         for (CubicCurve curve : selfTransitionCurves.values()) {
             mainAnchorPane.getChildren().remove(curve);
+            groupStackPane.getChildren().remove(curve);
         }
         for (Text text : transitionTexts.values()) {
             mainAnchorPane.getChildren().remove(text);
+            groupStackPane.getChildren().remove(text);
         }
         for (Polygon arrow : transitionArrows.values()) {
             mainAnchorPane.getChildren().remove(arrow);
+            groupStackPane.getChildren().remove(arrow);
         }
+
         transitionCurves.clear();
         selfTransitionCurves.clear();
         transitionTexts.clear();
@@ -572,6 +589,12 @@ public class MainController implements Initializable {
                     if (selfLoop == null) {
                         selfLoop = createSelfTransitionLoop(currentStatePane, inputs);
                         mainAnchorPane.getChildren().add(selfLoop);
+                        if(currentStatePane.equals(groupStackPane)) {
+                            selfLoop.setTranslateX(7);
+                            selfLoop.setTranslateY(139);
+                            groupStackPane.getChildren().add(selfLoop);
+                            selfLoop.toBack();
+                        }
                         selfTransitionCurves.put(selfLoopKey, selfLoop);
                     } else {
                         updateSelfTransitionLoop(selfLoop, currentStatePane, inputs);
@@ -640,9 +663,10 @@ public class MainController implements Initializable {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
         double centerY = state.getLayoutY() + state.getHeight() / 2;
 
+
         CubicCurve curve = new CubicCurve();
         double loopRadius = 40;
-        double stateRadius = 46;
+        double stateRadius = 50;
 
         curve.setStartX(centerX - stateRadius);
         curve.setStartY(centerY);
@@ -662,21 +686,34 @@ public class MainController implements Initializable {
         labelText.setX(centerX);
         labelText.setY(centerY - stateRadius - loopRadius - 5); // Position closer to the loop
         labelText.setFill(Color.RED);
+        labelText.setTranslateX(-22);
+        labelText.setTranslateY(10);
 
         mainAnchorPane.getChildren().add(labelText);
+
+        if(state.equals(groupStackPane)) {
+            labelText.setTranslateY(90);
+            labelText.setTranslateX(-10);
+            groupStackPane.getChildren().add(labelText);
+        }
+
         transitionTexts.put(state.getId() + "->" + input, labelText);
+        if(state.equals(groupStackPane))
+            transitionTexts.put("q0" + "->" + input, labelText);
 
         return curve;
     }
 
-
-
-
     private QuadCurve createTransitionCurve(StackPane fromState, StackPane toState) {
         double startX = fromState.getLayoutX() + fromState.getWidth() / 2;
         double startY = fromState.getLayoutY() + fromState.getHeight() / 2;
+        if(fromState.equals(groupStackPane))
+            startY = (fromState.getLayoutY() + fromState.getHeight() / 2) + 180;
+
         double endX = toState.getLayoutX() + toState.getWidth() / 2;
         double endY = toState.getLayoutY() + toState.getHeight() / 2;
+        if(toState.equals(groupStackPane))
+            endY = (toState.getLayoutY() + toState.getHeight() / 2) + 180;
 
         double[] endPoint = calculateEndPoint(startX, startY, endX, endY, 46);
 
@@ -825,31 +862,6 @@ public class MainController implements Initializable {
         } else {
             resultLabel.setText("String is not accepted.");
             resultLabel.setTextFill(Color.RED);
-        }
-    }
-
-    //!
-    public static class Transition {
-        private final String currentState;
-        private final String input;
-        private final String nextState;
-
-        public Transition(String currentState, String input, String nextState) {
-            this.currentState = currentState;
-            this.input = input;
-            this.nextState = nextState;
-        }
-
-        public String getCurrentState() {
-            return currentState;
-        }
-
-        public String getInput() {
-            return input;
-        }
-
-        public String getNextState() {
-            return nextState;
         }
     }
 }

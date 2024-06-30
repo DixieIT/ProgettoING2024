@@ -25,7 +25,7 @@ public class DraggableMaker {
             double minX = 2;
             double minY = 4;
             if(isQ0) {
-                minY = -45;
+                minY = -227;
             }
 
             double maxX = stateAnchorPane.getWidth() - node.getBoundsInParent().getWidth();
@@ -34,15 +34,12 @@ public class DraggableMaker {
             // Applicare i limiti
             if(isQ0) {
                 newX = Math.max(minX, Math.min(newX, maxX - 0.5));
-                newY = Math.max(minY, Math.min(newY, maxY + 46));
+                newY = Math.max(minY, Math.min(newY, maxY + 46.5));
             }
             else {
                 newX = Math.max(minX, Math.min(newX, maxX) - 2);
                 newY = Math.max(minY, Math.min(newY, maxY - 1.5) - 1);
             }
-
-
-
 
             node.setLayoutX(newX);
             node.setLayoutY(newY);
