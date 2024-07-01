@@ -9,7 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,6 +39,8 @@ public class MainController implements Initializable {
 
     @FXML //q0 + arrow
     StackPane groupStackPane = new StackPane();
+
+    private AnchorPane pathAnchorPane;
 
     @FXML
     private StackPane q0;
@@ -66,6 +70,8 @@ public class MainController implements Initializable {
     private TextField testStringTextField;
     @FXML
     private Label resultLabel;
+
+    private boolean isPopup = false;
 
     private List<StackPane> stackPanes;
     private Map<String, QuadCurve> transitionCurves = new HashMap<>();
@@ -121,6 +127,7 @@ public class MainController implements Initializable {
         q0_arrow.setTranslateY(180);
 
         groupStackPane.getChildren().add(q0_arrow);
+
         mainAnchorPane.getChildren().add(groupStackPane);
         draggableMaker.makeDraggable(groupStackPane, stateAnchorPane, true);
         addMovementListeners(groupStackPane);
@@ -247,6 +254,8 @@ public class MainController implements Initializable {
         if (labelText == null) {
             // Create and add the label if it does not exist
             labelText = new Text(input);
+            if(isPopup)
+                pathAnchorPane.getChildren().add(labelText);
             stateAnchorPane.getChildren().add(labelText);
             transitionTexts.put(textKey, labelText);
         }
@@ -396,12 +405,13 @@ public class MainController implements Initializable {
     @FXML
     private void handleAddState() {
         StackPane stackPane = createStatePane(isFinalState);
+
         mainAnchorPane.getChildren().add(stackPane);
+
         if(isFinalState)
             automaton.addFinalState();
         else
             automaton.addState();
-        System.out.println(automaton.getQ().size() + "STATI");
     }
 
     private StackPane createStatePane(boolean isFinalState) {
@@ -434,6 +444,7 @@ public class MainController implements Initializable {
         stackPane.setId(stateId);
         stackPanes.add(stackPane);
         stackPane.getChildren().add(textField);
+
         draggableMaker.makeDraggable(stackPane, stateAnchorPane, false);
         addMovementListeners(stackPane);
 
@@ -551,6 +562,228 @@ public class MainController implements Initializable {
         transitionArrows.clear();
     }
 
+    private StackPane copyStackPane(StackPane original) {
+        StackPane copy = new StackPane();
+        copy.setStyle(original.getStyle()); // Copia lo stile se presente
+
+        for (javafx.scene.Node originalChild : original.getChildren()) {
+            javafx.scene.Node copiedChild = cloneNode(originalChild);
+            if (copiedChild != null) {
+                copy.getChildren().add(copiedChild);
+            }
+        }
+
+        // Copia la posizione del StackPane originale
+        copy.setLayoutX(original.getLayoutX());
+        copy.setLayoutY(original.getLayoutY());
+
+        return copy;
+    }
+
+    private void generatePath(boolean isAccepted) {
+        isPopup = true;
+        regenerateTransitionsPopup(isAccepted);
+        isPopup = false;
+        regenerateTransitions();
+
+        /*Map<String, Map<String, String>> path = automaton.getPath();
+        Map<String, String> concatenatedTransitions = new HashMap<>();
+
+        for (String currentState : path.keySet()) {
+            for (String input : path.get(currentState).keySet()) {
+                String nextState = path.get(currentState).get(input);
+                String key = currentState + "," + nextState;
+
+                if (concatenatedTransitions.containsKey(key)) {
+                    concatenatedTransitions.put(key, concatenatedTransitions.get(key) + ", " + input);
+                } else {
+                    concatenatedTransitions.put(key, input);
+                }
+            }
+        }
+
+        for (Map.Entry<String, String> entry : concatenatedTransitions.entrySet()) {
+            String key = entry.getKey();
+            String[] states = key.split(",");
+            String currentState = states[0];
+            String nextState = states[1];
+            String inputs = entry.getValue();
+
+            StackPane currentStatePane = findStateById(currentState);
+            if(currentState.equals("q0"))
+                currentStatePane = groupStackPane;
+
+            StackPane nextStatePane = findStateById(nextState);
+            if(nextState.equals("q0"))
+                nextStatePane = groupStackPane;
+
+            if (currentStatePane != null && nextStatePane != null) {
+                if (currentState.equals(nextState)) {
+                    String selfLoopKey = key + "->" + inputs;
+                    CubicCurve selfLoop = selfTransitionCurves.get(selfLoopKey);
+                    if (selfLoop == null) {
+                        selfLoop = createSelfTransitionLoop(currentStatePane, inputs);
+                        pathAnchorPane.getChildren().add(selfLoop);
+                        if(currentStatePane.equals(groupStackPane)) {
+                            selfLoop.setTranslateX(7);
+                            selfLoop.setTranslateY(139);
+
+                            selfLoop.setStroke(Color.GREEN);
+                            if(isAccepted)
+                                selfLoop.setStroke(Color.RED);
+
+                            groupStackPane.getChildren().add(selfLoop);
+                            selfLoop.toBack();
+                        }
+                        selfTransitionCurves.put(selfLoopKey, selfLoop);
+                    } else {
+                        updateSelfTransitionLoop(selfLoop, currentStatePane, inputs);
+                    }
+                } else {
+                    String transitionKey = key + "->" + inputs;
+                    QuadCurve transitionCurve = transitionCurves.get(transitionKey);
+                    if (transitionCurve == null) {
+                        transitionCurve = createTransitionCurve(currentStatePane, nextStatePane);
+                        Text transitionText = createTransitionText(transitionCurve, inputs);
+                        Polygon arrow = createArrowhead(transitionCurve);
+                        pathAnchorPane.getChildren().addAll(transitionCurve, transitionText, arrow);
+                        transitionCurves.put(transitionKey, transitionCurve);
+                        transitionTexts.put(transitionKey, transitionText);
+                        transitionArrows.put(transitionKey, arrow);
+                    } else {
+                        updateTransitionCurve(transitionCurve, currentStatePane, nextStatePane, inputs);
+                    }
+                }
+            }
+        }*/
+
+    }
+
+    private javafx.scene.Node cloneNode(javafx.scene.Node original) {
+        if (original instanceof Circle) {
+            Circle originalCircle = (Circle) original;
+            Circle copiedCircle = new Circle(originalCircle.getRadius(), originalCircle.getFill());
+            copiedCircle.setStroke(originalCircle.getStroke());
+            copiedCircle.setStrokeWidth(originalCircle.getStrokeWidth());
+
+            // Copia la posizione relativa
+            copiedCircle.setLayoutX(originalCircle.getLayoutX());
+            copiedCircle.setLayoutY(originalCircle.getLayoutY());
+
+            // Puoi copiare altre proprietà necessarie qui
+            return copiedCircle;
+        } else if (original instanceof Polygon) {
+            Polygon originalPolygon = (Polygon) original;
+            Double[] points = new Double[originalPolygon.getPoints().size()];
+            originalPolygon.getPoints().toArray(points);
+            Polygon copiedPolygon = new Polygon();
+            copiedPolygon.getPoints().addAll(points);
+
+            // Copia la posizione relativa
+            copiedPolygon.setLayoutX(originalPolygon.getLayoutX());
+            copiedPolygon.setLayoutY(originalPolygon.getLayoutY());
+            copiedPolygon.setTranslateX(5);
+
+            // Puoi copiare altre proprietà necessarie qui
+            return copiedPolygon;
+        } else if (original instanceof Line) {
+            Line originalLine = (Line) original;
+            Line copiedLine = new Line(originalLine.getStartX(), originalLine.getStartY(),
+                    originalLine.getEndX(), originalLine.getEndY());
+            copiedLine.setStroke(originalLine.getStroke());
+            copiedLine.setStrokeWidth(originalLine.getStrokeWidth());
+            // Copia la posizione relativa
+            copiedLine.setLayoutX(originalLine.getLayoutX());
+            copiedLine.setLayoutY(originalLine.getLayoutY());
+
+            // Puoi copiare altre proprietà necessarie qui
+            return copiedLine;
+        } else if (original instanceof Label) {
+            Label originalLabel = (Label) original;
+            Label copiedLabel = new Label(originalLabel.getText());
+            copiedLabel.setFont(originalLabel.getFont());
+            copiedLabel.setTextFill(originalLabel.getTextFill());
+
+            // Copia la posizione relativa
+            copiedLabel.setLayoutX(originalLabel.getLayoutX());
+            copiedLabel.setLayoutY(originalLabel.getLayoutY());
+
+            // Puoi copiare altre proprietà necessarie qui per le Label
+
+            return copiedLabel;
+        } else if (original instanceof Group) {
+            Group originalGroup = (Group) original;
+            Group copiedGroup = new Group();
+
+            // Clona ogni nodo interno del Group
+            for (Node child : originalGroup.getChildren()) {
+                Node copiedChild = cloneNode(child);
+                if (copiedChild != null) {
+                    copiedChild.setLayoutX(child.getLayoutX());
+                    copiedChild.setLayoutY(child.getLayoutY());
+                    if(child instanceof StackPane){
+                        copiedChild.setTranslateY(50);
+                    }
+                    copiedGroup.getChildren().add(copiedChild);
+                }
+            }
+            copiedGroup.setTranslateY(originalGroup.getTranslateY() + 50);
+
+            return copiedGroup;
+        } else if (original instanceof StackPane) {
+            // Clona lo StackPane
+            StackPane originalStackPane = (StackPane) original;
+            StackPane copiedStackPane = new StackPane();
+            copiedStackPane.setStyle(originalStackPane.getStyle());
+
+            // Clona ogni nodo figlio dello StackPane
+            for (javafx.scene.Node child : originalStackPane.getChildren()) {
+                javafx.scene.Node copiedChild = cloneNode(child);
+                if (copiedChild != null) {
+                    copiedStackPane.getChildren().add(copiedChild);
+                }
+            }
+
+            // Copia la posizione del StackPane originale
+            copiedStackPane.setLayoutX(originalStackPane.getLayoutX());
+            copiedStackPane.setLayoutY(originalStackPane.getLayoutY());
+
+            return copiedStackPane;
+        }
+        else if (original instanceof Text) {
+            Text originalText = (Text) original;
+            Text copiedText = new Text(originalText.getText());
+            copiedText.setFont(originalText.getFont());
+            copiedText.setFill(originalText.getFill());
+
+            // Copia la posizione relativa rispetto al parent
+            copiedText.setLayoutX(originalText.getLayoutX());
+            copiedText.setLayoutY(originalText.getLayoutY());
+
+            // Puoi copiare altre proprietà necessarie qui per il Text
+
+            return copiedText;
+        }
+        else {
+            // Gestione di altri tipi di nodi se necessario
+            return null;
+        }
+    }
+
+
+
+    private void regenerateTransitionsPopup(boolean isAccepted) {
+        pathAnchorPane = new AnchorPane();
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Path");
+        pathAnchorPane.setPrefSize(2013, 869);
+        Scene popupScene = new Scene(pathAnchorPane);
+        popup.setScene(popupScene);
+        popup.setMaximized(true);
+        regenerateTransitions();
+        popup.showAndWait();
+    }
 
     private void regenerateTransitions() {
         clearTransitions();
@@ -592,10 +825,12 @@ public class MainController implements Initializable {
                     CubicCurve selfLoop = selfTransitionCurves.get(selfLoopKey);
                     if (selfLoop == null) {
                         selfLoop = createSelfTransitionLoop(currentStatePane, inputs);
+
                         mainAnchorPane.getChildren().add(selfLoop);
+
                         if(currentStatePane.equals(groupStackPane)) {
-                            selfLoop.setTranslateX(7);
-                            selfLoop.setTranslateY(139);
+                            selfLoop.setTranslateX(5);
+                            selfLoop.setTranslateY(133);
                             groupStackPane.getChildren().add(selfLoop);
                             selfLoop.toBack();
                         }
@@ -603,19 +838,72 @@ public class MainController implements Initializable {
                     } else {
                         updateSelfTransitionLoop(selfLoop, currentStatePane, inputs);
                     }
+                    if(isPopup) {
+                        CubicCurve selfLoopCopy = new CubicCurve();
+                        selfLoopCopy.setStartX(selfLoop.getStartX());
+                        selfLoopCopy.setStartY(selfLoop.getStartY());
+                        selfLoopCopy.setControlX1(selfLoop.getControlX1());
+                        selfLoopCopy.setControlY1(selfLoop.getControlY1());
+                        selfLoopCopy.setControlX2(selfLoop.getControlX2());
+                        selfLoopCopy.setControlY2(selfLoop.getControlY2());
+                        selfLoopCopy.setEndX(selfLoop.getEndX());
+                        selfLoopCopy.setEndY(selfLoop.getEndY());
+                        selfLoopCopy.setStroke(selfLoop.getStroke());
+                        selfLoopCopy.setStrokeWidth(selfLoop.getStrokeWidth());
+                        selfLoopCopy.setFill(selfLoop.getFill());
+                        if(currentStatePane.equals(groupStackPane)) {
+                            selfLoopCopy.setTranslateY(180);
+                            selfLoopCopy.setTranslateX(22);
+                        }
+                        pathAnchorPane.getChildren().add(selfLoopCopy);
+                    }
+
                 } else {
                     String transitionKey = key + "->" + inputs;
                     QuadCurve transitionCurve = transitionCurves.get(transitionKey);
+                    Text transitionTextCopy = new Text();
+                    Polygon arrowCopy = new Polygon();
                     if (transitionCurve == null) {
                         transitionCurve = createTransitionCurve(currentStatePane, nextStatePane);
                         Text transitionText = createTransitionText(transitionCurve, inputs);
                         Polygon arrow = createArrowhead(transitionCurve);
+
                         mainAnchorPane.getChildren().addAll(transitionCurve, transitionText, arrow);
                         transitionCurves.put(transitionKey, transitionCurve);
                         transitionTexts.put(transitionKey, transitionText);
                         transitionArrows.put(transitionKey, arrow);
+
+                        transitionTextCopy.setText(transitionText.getText());
+
+                        transitionTextCopy.setX(transitionText.getX());
+                        transitionTextCopy.setY(transitionText.getY());
+                        transitionTextCopy.setFont(transitionText.getFont());
+                        transitionTextCopy.setFill(transitionText.getFill());
+                        transitionTextCopy.setStroke(transitionText.getStroke());
+                        transitionTextCopy.setStrokeWidth(transitionText.getStrokeWidth());
+                        transitionTextCopy.setWrappingWidth(transitionText.getWrappingWidth());
+                        transitionTextCopy.setStyle("-fx-font-size: 16.5");
+
+                        ObservableList<Double> points = arrow.getPoints();
+                        arrowCopy.getPoints().setAll(points);
+                        arrowCopy.setFill(arrow.getFill());
+                        arrowCopy.setStroke(arrow.getStroke());
+                        arrowCopy.setStrokeWidth(arrow.getStrokeWidth());
                     } else {
                         updateTransitionCurve(transitionCurve, currentStatePane, nextStatePane, inputs);
+                    }
+                    if(isPopup) {
+                        QuadCurve transitionCurveCopy = new QuadCurve();
+                        transitionCurveCopy.setStartX(transitionCurve.getStartX());
+                        transitionCurveCopy.setStartY(transitionCurve.getStartY());
+                        transitionCurveCopy.setControlX(transitionCurve.getControlX());
+                        transitionCurveCopy.setControlY(transitionCurve.getControlY());
+                        transitionCurveCopy.setEndX(transitionCurve.getEndX());
+                        transitionCurveCopy.setEndY(transitionCurve.getEndY());
+                        transitionCurveCopy.setStroke(transitionCurve.getStroke());
+                        transitionCurveCopy.setStrokeWidth(transitionCurve.getStrokeWidth());
+                        transitionCurveCopy.setFill(transitionCurve.getFill());
+                        pathAnchorPane.getChildren().addAll(transitionCurveCopy, transitionTextCopy, arrowCopy);
                     }
                 }
             }
@@ -624,6 +912,8 @@ public class MainController implements Initializable {
         for (StackPane stackPane : stackPanes) {
             mainAnchorPane.getChildren().remove(stackPane);
             mainAnchorPane.getChildren().add(stackPane);
+            if(isPopup)
+                pathAnchorPane.getChildren().add(copyStackPane(stackPane));
         }
     }
 
@@ -654,7 +944,7 @@ public class MainController implements Initializable {
             double midY = (startY + endPoint[1]) / 2;
             double angle = Math.atan2(endPoint[1] - startY, endPoint[0] - startX);
             text.setX(midX + offsetX * Math.cos(angle));
-            text.setY(midY + offsetY * Math.sin(angle));
+            text.setY(midY + offsetY * Math.sin(angle) - 20);
         }
 
         Polygon arrow = transitionArrows.get(textKey);
@@ -692,11 +982,33 @@ public class MainController implements Initializable {
         labelText.setFill(Color.RED);
         labelText.setTranslateX(-22);
         labelText.setTranslateY(10);
+        labelText.setStyle("-fx-font-size: 14");
 
-        mainAnchorPane.getChildren().add(labelText);
+        if(isPopup) {
+            Text labelTextPopup = new Text(labelText.getText());
+            labelTextPopup.setFont(labelText.getFont());
+            labelTextPopup.setStyle(labelText.getStyle());
+            labelTextPopup.setFill(labelText.getFill());
+            labelTextPopup.setX(labelText.getX());
+            labelTextPopup.setY(labelText.getY());
+            if(state.equals(groupStackPane)) {
+                labelTextPopup.setTranslateY(180);
+                labelTextPopup.setTranslateX(-15);
+            }
+            else {
+                labelTextPopup.setTranslateY(10);
+                labelTextPopup.setTranslateX(-20);
+            }
+            labelTextPopup.setStyle("-fx-font-size: 16.5");
+            pathAnchorPane.getChildren().add(labelTextPopup);
+        }
 
-        if(state.equals(groupStackPane)) {
-            labelText.setTranslateY(90);
+        if(!state.equals(groupStackPane)) {
+            mainAnchorPane.getChildren().add(labelText);
+        }
+
+        if(state.equals(groupStackPane) && !isPopup) {
+            labelText.setTranslateY(80);
             labelText.setTranslateX(-10);
             groupStackPane.getChildren().add(labelText);
         }
@@ -740,6 +1052,7 @@ public class MainController implements Initializable {
 
         Text text = new Text(midX, midY, transitionInput);
         text.setFill(Color.RED);
+        text.setStyle("-fx-font-size: 14");
 
         double offsetX = 10;
         double offsetY = -40; // Slightly negative to move it closer
@@ -860,6 +1173,18 @@ public class MainController implements Initializable {
         }
 
         boolean isAccepted = automaton.isStringAccepted(testString);
+
+        for (Map.Entry<String, Map<String, String>> stateEntry : automaton.getPath().entrySet()) {
+            String state = stateEntry.getKey();
+            for (Map.Entry<String, String> transitionEntry : stateEntry.getValue().entrySet()) {
+                String inputSymbol = transitionEntry.getKey();
+                String nextState = transitionEntry.getValue();
+                System.out.println("Delta(" + state + ", " + inputSymbol + ") = " + nextState);
+            }
+        }
+
+        generatePath(isAccepted);
+
         if (isAccepted) {
             resultLabel.setText("String is accepted.");
             resultLabel.setTextFill(Color.GREEN);

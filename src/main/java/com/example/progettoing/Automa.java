@@ -9,24 +9,26 @@ public class Automa {
     private ArrayList<String> F;
     private Set<String> Sigma;
     private Map<String, Map<String, String>> delta;
+    private Map<String, Map<String, String>> path;
 
     public Automa(String q_0, String[] Q, String[] F, String[] Sigma, String[][] Delta) {
         this.q_0 = q_0;
         this.Q = new ArrayList<>(Arrays.asList(Q));
         this.F = new ArrayList<>(Arrays.asList(F));
         this.Sigma = new HashSet<>();
-        for(String s: Sigma) {
+        for (String s : Sigma) {
             boolean add = true;
-            for(int i = 0; i < s.length(); i++) {
-                if(!Character.isAlphabetic(s.charAt(i))) {
-                     add = false;
+            for (int i = 0; i < s.length(); i++) {
+                if (!Character.isAlphabetic(s.charAt(i))) {
+                    add = false;
                 }
             }
-            if(add)
+            if (add)
                 this.Sigma.add(s);
         }
 
         this.delta = new HashMap<>();
+        this.path = new HashMap<>();
 
         // Convert Delta array to delta map
         for (int i = 0; i < Q.length; i++) {
@@ -41,13 +43,13 @@ public class Automa {
     }
 
     public int addTransition(String currentState, String input, String nextState) {
-        if (!Q.contains(nextState)){
+        if (!Q.contains(nextState)) {
             return -1;
         }
-        if (!Sigma.contains(input)){
+        if (!Sigma.contains(input)) {
             return -1;
         }
-        if(!Q.contains(currentState)){
+        if (!Q.contains(currentState)) {
             return -1;
         }
 
@@ -77,9 +79,9 @@ public class Automa {
         return sb.toString();
     }
 
-    public String printSigma(){
+    public String printSigma() {
         StringBuilder sb = new StringBuilder();
-        for (String string : Sigma){
+        for (String string : Sigma) {
             sb.append(string).append(", ");
         }
         if (!Sigma.isEmpty()) {
@@ -126,21 +128,30 @@ public class Automa {
         return F.size();
     }
 
-    public ArrayList<String> getQ(){
+    public ArrayList<String> getQ() {
         return Q;
     }
-    public ArrayList<String> getF(){
+
+    public ArrayList<String> getF() {
         return F;
     }
-    public Set<String> getSigma(){
+
+    public Set<String> getSigma() {
         return Sigma;
     }
 
-    public Map<String, Map<String, String>> getDelta() { return delta;}
+    public Map<String, Map<String, String>> getDelta() {
+        return delta;
+    }
+
+    public Map<String, Map<String, String>> getPath() {
+        return path;
+    }
 
     public boolean isStringAccepted(String input) {
         String currentState = q_0;
         int pos = 0;
+        path.clear(); // Clear previous path
 
         while (pos < input.length()) {
             String longestMatch = null;
@@ -160,7 +171,7 @@ public class Automa {
                 return false;
             }
 
-
+            path.computeIfAbsent(currentState, k -> new HashMap<>()).put(longestMatch, delta.get(currentState).get(longestMatch));
             currentState = delta.get(currentState).get(longestMatch);
             pos += longestMatchLength;
         }
@@ -168,5 +179,4 @@ public class Automa {
         // Check if the final state is an accepting state
         return F.contains(currentState);
     }
-
 }
