@@ -533,7 +533,7 @@ public class MainController implements Initializable {
 
         System.out.println("Added transition Delta(" + currentState + ", " + transitionInput + ") = " + nextState);
 
-        regenerateTransitions();
+        regenerateTransitions(false, false);
         populateDeltaTable();
     }
 
@@ -583,10 +583,8 @@ public class MainController implements Initializable {
     private void generatePath(boolean isAccepted) {
         isPopup = true;
         regenerateTransitionsPopup(isAccepted);
-        isPopup = false;
-        regenerateTransitions();
 
-        /*Map<String, Map<String, String>> path = automaton.getPath();
+        Map<String, Map<String, String>> path = automaton.getPath();
         Map<String, String> concatenatedTransitions = new HashMap<>();
 
         for (String currentState : path.keySet()) {
@@ -601,62 +599,6 @@ public class MainController implements Initializable {
                 }
             }
         }
-
-        for (Map.Entry<String, String> entry : concatenatedTransitions.entrySet()) {
-            String key = entry.getKey();
-            String[] states = key.split(",");
-            String currentState = states[0];
-            String nextState = states[1];
-            String inputs = entry.getValue();
-
-            StackPane currentStatePane = findStateById(currentState);
-            if(currentState.equals("q0"))
-                currentStatePane = groupStackPane;
-
-            StackPane nextStatePane = findStateById(nextState);
-            if(nextState.equals("q0"))
-                nextStatePane = groupStackPane;
-
-            if (currentStatePane != null && nextStatePane != null) {
-                if (currentState.equals(nextState)) {
-                    String selfLoopKey = key + "->" + inputs;
-                    CubicCurve selfLoop = selfTransitionCurves.get(selfLoopKey);
-                    if (selfLoop == null) {
-                        selfLoop = createSelfTransitionLoop(currentStatePane, inputs);
-                        pathAnchorPane.getChildren().add(selfLoop);
-                        if(currentStatePane.equals(groupStackPane)) {
-                            selfLoop.setTranslateX(7);
-                            selfLoop.setTranslateY(139);
-
-                            selfLoop.setStroke(Color.GREEN);
-                            if(isAccepted)
-                                selfLoop.setStroke(Color.RED);
-
-                            groupStackPane.getChildren().add(selfLoop);
-                            selfLoop.toBack();
-                        }
-                        selfTransitionCurves.put(selfLoopKey, selfLoop);
-                    } else {
-                        updateSelfTransitionLoop(selfLoop, currentStatePane, inputs);
-                    }
-                } else {
-                    String transitionKey = key + "->" + inputs;
-                    QuadCurve transitionCurve = transitionCurves.get(transitionKey);
-                    if (transitionCurve == null) {
-                        transitionCurve = createTransitionCurve(currentStatePane, nextStatePane);
-                        Text transitionText = createTransitionText(transitionCurve, inputs);
-                        Polygon arrow = createArrowhead(transitionCurve);
-                        pathAnchorPane.getChildren().addAll(transitionCurve, transitionText, arrow);
-                        transitionCurves.put(transitionKey, transitionCurve);
-                        transitionTexts.put(transitionKey, transitionText);
-                        transitionArrows.put(transitionKey, arrow);
-                    } else {
-                        updateTransitionCurve(transitionCurve, currentStatePane, nextStatePane, inputs);
-                    }
-                }
-            }
-        }*/
-
     }
 
     private javafx.scene.Node cloneNode(javafx.scene.Node original) {
@@ -773,27 +715,60 @@ public class MainController implements Initializable {
 
 
     private void regenerateTransitionsPopup(boolean isAccepted) {
+        AnchorPane backgroundAnchorPane = new AnchorPane();
+        backgroundAnchorPane.setPrefSize(2013, 1069);
+        Label popupTitle = new Label();
+        popupTitle.setText("AUTOMATON TEST");
+        popupTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 35; -fx-font-family: Arial;");
+        popupTitle.setTranslateY(20);
+
+        Label accepted = new Label();
+        if(isAccepted) {
+            accepted.setText("The string \"" + testStringTextField.getText() + "\"is accepted." );
+            accepted.setTextFill(Color.GREEN);
+        }
+        else {
+            accepted.setText("The string \"" + testStringTextField.getText() + "\" is not accepted." );
+            accepted.setTextFill(Color.RED);
+        }
+        accepted.setStyle("-fx-font-size: 20");
+        accepted.setTranslateY(58);
+        StackPane stackPaneTitle = new StackPane();
+        stackPaneTitle.getChildren().addAll(popupTitle, accepted);
+        stackPaneTitle.setAlignment(Pos.TOP_CENTER);
+        stackPaneTitle.setTranslateX(700);
+        backgroundAnchorPane.getChildren().add(stackPaneTitle);
         pathAnchorPane = new AnchorPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
-        popup.setTitle("Path");
+        popup.setTitle("Test");
         pathAnchorPane.setPrefSize(2013, 869);
-        Scene popupScene = new Scene(pathAnchorPane);
+        Scene popupScene = new Scene(backgroundAnchorPane);
         popup.setScene(popupScene);
         popup.setMaximized(true);
-        regenerateTransitions();
+        regenerateTransitions(false, false);
+        regenerateTransitions(true, isAccepted);
+        pathAnchorPane.setTranslateY(230);
+        isPopup = false;
+        regenerateTransitions(false, false);
+        backgroundAnchorPane.getChildren().add(pathAnchorPane);
         popup.showAndWait();
     }
 
-    private void regenerateTransitions() {
+    private void regenerateTransitions(boolean hasToBeColored, boolean isAccepted) {
         clearTransitions();
 
-        Map<String, Map<String, String>> delta = automaton.getDelta();
+        Map<String, Map<String, String>> map = automaton.getDelta();
+        if(hasToBeColored)
+            map = automaton.getPath();
+        else
+            map = automaton.getDelta();
+
         Map<String, String> concatenatedTransitions = new HashMap<>();
 
-        for (String currentState : delta.keySet()) {
-            for (String input : delta.get(currentState).keySet()) {
-                String nextState = delta.get(currentState).get(input);
+        for (String currentState : map.keySet()) {
+            for (String input : map.get(currentState).keySet()) {
+                String nextState = map.get(currentState).get(input);
                 String key = currentState + "," + nextState;
 
                 if (concatenatedTransitions.containsKey(key)) {
@@ -824,7 +799,7 @@ public class MainController implements Initializable {
                     String selfLoopKey = key + "->" + inputs;
                     CubicCurve selfLoop = selfTransitionCurves.get(selfLoopKey);
                     if (selfLoop == null) {
-                        selfLoop = createSelfTransitionLoop(currentStatePane, inputs);
+                        selfLoop = createSelfTransitionLoop(currentStatePane, inputs, hasToBeColored, isAccepted);
 
                         mainAnchorPane.getChildren().add(selfLoop);
 
@@ -849,6 +824,14 @@ public class MainController implements Initializable {
                         selfLoopCopy.setEndX(selfLoop.getEndX());
                         selfLoopCopy.setEndY(selfLoop.getEndY());
                         selfLoopCopy.setStroke(selfLoop.getStroke());
+
+                        if(hasToBeColored) {
+                            if(isAccepted)
+                                selfLoopCopy.setStroke(Color.GREEN);
+                            else
+                                selfLoopCopy.setStroke(Color.RED);
+                        }
+
                         selfLoopCopy.setStrokeWidth(selfLoop.getStrokeWidth());
                         selfLoopCopy.setFill(selfLoop.getFill());
                         if(currentStatePane.equals(groupStackPane)) {
@@ -884,11 +867,30 @@ public class MainController implements Initializable {
                         transitionTextCopy.setWrappingWidth(transitionText.getWrappingWidth());
                         transitionTextCopy.setStyle("-fx-font-size: 16.5");
 
+                        if(hasToBeColored) {
+                            if(isAccepted)
+                                transitionTextCopy.setStroke(Color.GREEN);
+                            else
+                                transitionTextCopy.setStroke(Color.RED);
+                        }
+
                         ObservableList<Double> points = arrow.getPoints();
                         arrowCopy.getPoints().setAll(points);
                         arrowCopy.setFill(arrow.getFill());
                         arrowCopy.setStroke(arrow.getStroke());
                         arrowCopy.setStrokeWidth(arrow.getStrokeWidth());
+
+                        if(hasToBeColored) {
+                            if(isAccepted) {
+                                arrowCopy.setStroke(Color.GREEN);
+                                arrowCopy.setFill(Color.GREEN);
+                            }
+                            else {
+                                arrowCopy.setStroke(Color.RED);
+                                arrowCopy.setFill(Color.RED);
+                            }
+                        }
+
                     } else {
                         updateTransitionCurve(transitionCurve, currentStatePane, nextStatePane, inputs);
                     }
@@ -903,6 +905,14 @@ public class MainController implements Initializable {
                         transitionCurveCopy.setStroke(transitionCurve.getStroke());
                         transitionCurveCopy.setStrokeWidth(transitionCurve.getStrokeWidth());
                         transitionCurveCopy.setFill(transitionCurve.getFill());
+
+                        if(hasToBeColored) {
+                            if(isAccepted)
+                                transitionCurveCopy.setStroke(Color.GREEN);
+                            else
+                                transitionCurveCopy.setStroke(Color.RED);
+                        }
+
                         pathAnchorPane.getChildren().addAll(transitionCurveCopy, transitionTextCopy, arrowCopy);
                     }
                 }
@@ -953,7 +963,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private CubicCurve createSelfTransitionLoop(StackPane state, String input) {
+    private CubicCurve createSelfTransitionLoop(StackPane state, String input, boolean hasToBeColored, boolean isAccepted) {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
         double centerY = state.getLayoutY() + state.getHeight() / 2;
 
@@ -974,15 +984,16 @@ public class MainController implements Initializable {
         curve.setControlY2(centerY - loopRadius - 60); // Move control point higher
 
         curve.setStroke(Color.BLACK);
+        curve.setStrokeWidth(2);
         curve.setFill(Color.TRANSPARENT);
 
         Text labelText = new Text(input);
         labelText.setX(centerX);
         labelText.setY(centerY - stateRadius - loopRadius - 5); // Position closer to the loop
-        labelText.setFill(Color.RED);
+        labelText.setFill(Color.BLACK);
         labelText.setTranslateX(-22);
         labelText.setTranslateY(10);
-        labelText.setStyle("-fx-font-size: 14");
+        labelText.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
 
         if(isPopup) {
             Text labelTextPopup = new Text(labelText.getText());
@@ -999,7 +1010,15 @@ public class MainController implements Initializable {
                 labelTextPopup.setTranslateY(10);
                 labelTextPopup.setTranslateX(-20);
             }
-            labelTextPopup.setStyle("-fx-font-size: 16.5");
+            labelTextPopup.setStyle("-fx-font-size: 16.5; -fx-font-weight: bold");
+
+            if(hasToBeColored) {
+                if(isAccepted)
+                    labelTextPopup.setFill(Color.GREEN);
+                else
+                    labelTextPopup.setFill(Color.RED);
+            }
+
             pathAnchorPane.getChildren().add(labelTextPopup);
         }
 
@@ -1039,7 +1058,7 @@ public class MainController implements Initializable {
 
         QuadCurve curve = new QuadCurve(startX, startY, controlX, controlY, endPoint[0], endPoint[1]);
         curve.setStroke(Color.BLACK);
-        curve.setStrokeWidth(1);
+        curve.setStrokeWidth(2);
         curve.setFill(Color.TRANSPARENT);
 
         return curve;
@@ -1051,8 +1070,8 @@ public class MainController implements Initializable {
         double midY = (transitionCurve.getStartY() + transitionCurve.getEndY()) / 2;
 
         Text text = new Text(midX, midY, transitionInput);
-        text.setFill(Color.RED);
-        text.setStyle("-fx-font-size: 14");
+        text.setFill(Color.BLACK);
+        text.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
 
         double offsetX = 10;
         double offsetY = -40; // Slightly negative to move it closer
