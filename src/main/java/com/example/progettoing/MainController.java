@@ -30,12 +30,15 @@ import java.util.*;
 
 public class MainController implements Initializable {
 
-    private final Automa automaton;
+    private Automa automaton;
     @FXML
     private AnchorPane mainAnchorPane;
 
     @FXML
     private AnchorPane stateAnchorPane;
+
+    @FXML
+    private Button testStringButton;
 
     @FXML //q0 + arrow
     StackPane groupStackPane = new StackPane();
@@ -103,6 +106,20 @@ public class MainController implements Initializable {
 
 
         Group q0_arrow = new Group();
+
+        testStringTextField.setDisable(true);
+        testStringTextField.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-prompt-text-fill: grey");
+        testStringButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-size: 14.5; -fx-background-radius: 30; -fx-font-weight: bold");
+        testStringButton.setDisable(true);
+
+        testStringTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isEmpty()) {
+                testStringButton.setDisable(false);
+            }
+            else {
+                testStringButton.setDisable(true);
+            }
+        });
 
         Line line = new Line();
         line.setStartX(20);
@@ -510,6 +527,7 @@ public class MainController implements Initializable {
 
         submitNewTransition.setOnAction(event -> {
             handleAddTransition(currentState, label.getText(), nextState);
+            testStringTextField.setDisable(false);
             ((Stage)newTransitionStackPane.getScene().getWindow()).close();
         });
         Scene popupScene = new Scene(newTransitionStackPane);
@@ -645,12 +663,8 @@ public class MainController implements Initializable {
             Label copiedLabel = new Label(originalLabel.getText());
             copiedLabel.setFont(originalLabel.getFont());
             copiedLabel.setTextFill(originalLabel.getTextFill());
-
-            // Copia la posizione relativa
             copiedLabel.setLayoutX(originalLabel.getLayoutX());
             copiedLabel.setLayoutY(originalLabel.getLayoutY());
-
-            // Puoi copiare altre proprietà necessarie qui per le Label
 
             return copiedLabel;
         } else if (original instanceof Group) {
@@ -746,6 +760,7 @@ public class MainController implements Initializable {
         Scene popupScene = new Scene(backgroundAnchorPane);
         popup.setScene(popupScene);
         popup.setMaximized(true);
+
         regenerateTransitions(false, false);
         regenerateTransitions(true, isAccepted);
         pathAnchorPane.setTranslateY(230);
@@ -1186,7 +1201,6 @@ public class MainController implements Initializable {
     private void handleTestString(ActionEvent event) {
         String testString = testStringTextField.getText().trim();
         if (testString.isEmpty()) {
-            resultLabel.setText("Please enter a string to test.");
             resultLabel.setTextFill(Color.RED);
             return;
         }
@@ -1203,13 +1217,33 @@ public class MainController implements Initializable {
         }
 
         generatePath(isAccepted);
+        testStringTextField.clear();
+    }
 
-        if (isAccepted) {
-            resultLabel.setText("String is accepted.");
-            resultLabel.setTextFill(Color.GREEN);
-        } else {
-            resultLabel.setText("String is not accepted.");
-            resultLabel.setTextFill(Color.RED);
+    @FXML
+    private void handleClear() {
+        String[] Q = {"q0"};
+        // Define the set of final states
+        String[] F = {};
+        // Define the alphabet
+        String[] Sigma = {"a", "b"};
+        // Define the transition function
+        String[][] Delta = {
+                {},
+        };
+        automaton = new Automa("q0", Q, F, Sigma, Delta);
+        regenerateTransitions(false, false);
+        populateDeltaTable();
+        List<StackPane> toBeDeleted = new ArrayList<>();
+        for(Node node: mainAnchorPane.getChildren()) {
+            if(node instanceof StackPane)
+                if(!node.equals(groupStackPane))
+                    toBeDeleted.add((StackPane)node);
+        }
+        for(StackPane stackPane: toBeDeleted) {
+            mainAnchorPane.getChildren().remove(stackPane);
+            stackPanes.remove(stackPane);
         }
     }
+
 }

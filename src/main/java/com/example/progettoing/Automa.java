@@ -165,6 +165,7 @@ public class Automa {
                     longestMatchLength = length;
                     break; // Exit the loop once the longest match is found
                 }
+                System.out.println(subStr);
             }
 
             if (longestMatch == null) {
