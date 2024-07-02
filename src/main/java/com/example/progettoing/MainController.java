@@ -303,7 +303,11 @@ public class MainController implements Initializable {
         while(!comboBoxAlphabet.getItems().isEmpty()) {
             comboBoxAlphabet.getItems().remove(0);
         }
+
         comboBoxAlphabet.getItems().addAll(automaton.getSigma());
+        if(automaton.getSigma().isEmpty()) {
+            comboBoxAlphabet.setDisable(true);
+        }
         comboBoxAlphabet.setVisibleRowCount(15);
 
         //only view ComboBox
@@ -1222,18 +1226,11 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleClear() {
-        String[] Q = {"q0"};
-        // Define the set of final states
-        String[] F = {};
-        // Define the alphabet
-        String[] Sigma = {"a", "b"};
-        // Define the transition function
-        String[][] Delta = {
-                {},
-        };
-        automaton = new Automa("q0", Q, F, Sigma, Delta);
+        automaton.clearAll();
         regenerateTransitions(false, false);
         populateDeltaTable();
+        updateAlphabet();
+        testStringTextField.setDisable(true);
         List<StackPane> toBeDeleted = new ArrayList<>();
         for(Node node: mainAnchorPane.getChildren()) {
             if(node instanceof StackPane)
