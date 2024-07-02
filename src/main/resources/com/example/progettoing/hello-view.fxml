@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainAnchorPane" prefHeight="869.0" prefWidth="2013.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
@@ -17,9 +18,10 @@
          <children>
       
                                   <!-- Test String Area -->
-                <TextField fx:id="testStringTextField" layoutX="74.0" layoutY="148.0" prefHeight="32.5" prefWidth="325.0" promptText="Insert a string to test" />
-                <Button fx:id="testStringButton" layoutX="408.0" layoutY="148.0" prefHeight="24.0" mnemonicParsing="false" onAction="#handleTestString" text="Test" />
+                <TextField fx:id="testStringTextField" layoutX="151.0" layoutY="194.0" prefHeight="32.5" prefWidth="325.0" promptText="Insert a string to test" />
+                <Button fx:id="testStringButton" layoutX="484.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleTestString" prefHeight="24.0" text="Test" />
             <ComboBox fx:id="comboBoxAlphabet" layoutX="497.0" layoutY="145.0" promptText="View strings in Σ" />
+            <Button layoutX="95.0" layoutY="65.0" mnemonicParsing="false" onAction="#addStringButton" prefHeight="19.0" prefWidth="182.0" text="Add a String to the Alphabet Σ" />
          </children>
         </AnchorPane>
         <AnchorPane fx:id="stateAnchorPane" prefHeight="580.0" prefWidth="1728.5" style="-fx-border-color: black; -fx-border-width: 2 0 2 0; -fx-border-style: solid; -fx-padding: 10">
@@ -47,13 +49,27 @@
         <Button layoutX="627.0" layoutY="794.0" mnemonicParsing="false" onAction="#handleClear" text="CLEAR" />
       <Button layoutX="627.0" layoutY="704.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION" />
       <Button layoutX="734.0" layoutY="643.0" mnemonicParsing="false" onAction="#addStateButton" text="NEW STATE" />
-      <Button layoutX="585.0" layoutY="768.0" mnemonicParsing="false" onAction="#addStringButton" text="Add a String to the Alphabet Σ" />
-            <TableView fx:id="deltaTableView" layoutX="901.0" layoutY="589.0" prefHeight="299.0">
-                <columns>
-                    <TableColumn fx:id="currentStateColumn" prefWidth="209.60000306367874" text="Current State" />
-                    <TableColumn fx:id="inputColumn" prefWidth="217.59999084472656" text="Input" />
-                    <TableColumn fx:id="nextStateColumn" minWidth="0.0" prefWidth="224.7999267578125" text="Next State" />
-                </columns>
-            </TableView>
+      <TableView fx:id="deltaTableView" layoutX="1303.0" layoutY="632.0" prefHeight="450.0" prefWidth="432.0">
+          <columns>
+              <TableColumn fx:id="currentStateColumn" prefWidth="144.0" text="Current State" />
+              <TableColumn fx:id="inputColumn" prefWidth="144.0" text="Input" />
+              <TableColumn fx:id="nextStateColumn" minWidth="0.0" prefWidth="144.0" text="Next State" />
+          </columns>
+      </TableView>
+      <Label alignment="TOP_CENTER" layoutX="1399.0" layoutY="593.0" prefHeight="38.0" prefWidth="239.0" text="Transition Table" textFill="#0600ff">
+         <font>
+            <Font name="Arial" size="32.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_CENTER" layoutX="998.0" layoutY="593.0" prefHeight="38.0" prefWidth="239.0" text="Alphabet Σ" textFill="#ff9500">
+         <font>
+            <Font name="Arial" size="32.0" />
+         </font>
+      </Label>
+      <TableView fx:id="sigmaTableView" layoutX="1046.0" layoutY="632.0" prefHeight="450.0" prefWidth="144.0">
+         <columns>
+            <TableColumn fx:id="sigmaColumn" prefWidth="144.0" text="Strings" />
+         </columns>
+      </TableView>
     </children>
 </AnchorPane>

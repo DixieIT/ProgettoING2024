@@ -2,6 +2,7 @@ package com.example.progettoing;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -73,6 +74,10 @@ public class MainController implements Initializable {
     private TextField testStringTextField;
     @FXML
     private Label resultLabel;
+    @FXML
+    private TableView<String> sigmaTableView;
+    @FXML
+    private TableColumn<String, String> sigmaColumn;
 
     private boolean isPopup = false;
 
@@ -113,6 +118,27 @@ public class MainController implements Initializable {
         testStringButton.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
         testStringButton.getStyleClass().add("testString-button");
         testStringButton.setTranslateY(1);
+
+        deltaTableView.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        deltaTableView.getStyleClass().add("deltaTable");
+        deltaTableView.setPlaceholder(new javafx.scene.control.Label("No transitions in graph"));
+        deltaTableView.setTranslateX(-7);
+        deltaTableView.setTranslateY(7.5);
+
+        sigmaTableView.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        sigmaTableView.setPlaceholder(new javafx.scene.control.Label("Alphabet is empty"));
+        sigmaTableView.getStyleClass().add("deltaTable");
+        sigmaColumn.getStyleClass().add("deltaTable-column");
+        sigmaColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue()));
+        sigmaColumn.setSortable(false);
+
+        currentStateColumn.getStyleClass().add("deltaTable-column");
+        nextStateColumn.getStyleClass().add("deltaTable-column");
+        inputColumn.getStyleClass().add("deltaTable-column");
+        currentStateColumn.setSortable(false);
+        nextStateColumn.setSortable(false);
+        inputColumn.setSortable(false);
+        sigmaTableView.setTranslateY(7.5);
 
         Line line = new Line();
         line.setStartX(20);
@@ -292,48 +318,6 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void updateAlphabet() {
-        while(!comboBoxAlphabet.getItems().isEmpty()) {
-            comboBoxAlphabet.getItems().remove(0);
-        }
-
-        comboBoxAlphabet.getItems().addAll(automaton.getSigma());
-        if(automaton.getSigma().isEmpty()) {
-            comboBoxAlphabet.setDisable(true);
-        }
-        comboBoxAlphabet.setVisibleRowCount(15);
-
-        comboBoxAlphabet.setStyle("-fx-font-family: Arial");
-        //only view ComboBox
-        comboBoxAlphabet.setCellFactory(param -> new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    // Imposta il testo dell'elemento
-                    setText(item);
-                    // Disabilita il click sugli elementi
-                    setDisable(true);
-                    // Impedisce il passaggio del mouse sugli elementi
-                    setMouseTransparent(true);
-                }
-            }
-        });
-
-        comboBoxAlphabet.showingProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) { // ComboBox è stato appena aperto
-                // Rimuovi il focus dagli elementi del ComboBox
-                comboBoxAlphabet.getSelectionModel().clearSelection();
-                comboBoxAlphabet.requestFocus(); // Rimuove il focus dal ComboBox stesso
-            }
-        });
-
-        comboBoxAlphabet.setPromptText("View strings in Σ");
-    }
-
-    @FXML
     private void addStringButton(ActionEvent actionEvent) {
         StackPane newStringStackPane = new StackPane();
         Stage popup = new Stage();
@@ -365,7 +349,7 @@ public class MainController implements Initializable {
 
         submitNewString.setOnAction(event -> {
             handleAddString(label.getText());
-            updateAlphabet();
+            updateSigmaTable();
             if(comboBoxAlphabet.isDisabled())
                 comboBoxAlphabet.setDisable(false);
             label.clear();
@@ -388,6 +372,13 @@ public class MainController implements Initializable {
         Scene popupScene = new Scene(newStringStackPane);
         popup.setScene(popupScene);
         popup.showAndWait();
+    }
+
+    private void updateSigmaTable() {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        data.addAll(automaton.getSigma());
+        data.sort(String::compareToIgnoreCase);
+        sigmaTableView.setItems(data);
     }
 
     @FXML
@@ -1234,6 +1225,8 @@ public class MainController implements Initializable {
             }
         }
 
+        data.sort(Transition::compareTo);
+
         deltaTableView.setItems(data);
     }
 
@@ -1277,7 +1270,7 @@ public class MainController implements Initializable {
         deltaEmpty = true;
         regenerateTransitions(false, false);
         populateDeltaTable();
-        updateAlphabet();
+        updateSigmaTable();
         List<StackPane> toBeDeleted = new ArrayList<>();
         for(Node node: mainAnchorPane.getChildren()) {
             if(node instanceof StackPane)

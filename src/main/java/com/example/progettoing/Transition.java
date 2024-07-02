@@ -1,6 +1,6 @@
 package com.example.progettoing;
 
-public class Transition {
+public class Transition implements Comparable<Transition> {
     private final String currentState;
     private final String input;
     private final String nextState;
@@ -21,5 +21,16 @@ public class Transition {
 
     public String getNextState() {
         return nextState;
+    }
+
+    @Override
+    public int compareTo(Transition o) {
+        int c = currentState.compareToIgnoreCase(o.currentState);
+        if(c == 0) {
+            c = input.compareToIgnoreCase(o.input);
+            if(c == 0)
+                c = nextState.compareToIgnoreCase(o.nextState);
+        }
+        return c;
     }
 }
