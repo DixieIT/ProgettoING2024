@@ -23,9 +23,7 @@ public class Main extends Application {
         String[] Sigma = {};
 
         // Define the transition function
-        String[][] Delta = {
-                {},
-        };
+        String[][] Delta = {};
 
         // Create an instance of the Automa class
         Automa automaton = new Automa(q_0, Q, F, Sigma, Delta);

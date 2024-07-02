@@ -76,6 +76,8 @@ public class MainController implements Initializable {
 
     private boolean isPopup = false;
 
+    private boolean deltaEmpty = true;
+
     private List<StackPane> stackPanes;
     private Map<String, QuadCurve> transitionCurves = new HashMap<>();
     private Map<String, CubicCurve> selfTransitionCurves = new HashMap<>();
@@ -107,19 +109,9 @@ public class MainController implements Initializable {
 
         Group q0_arrow = new Group();
 
-        testStringTextField.setDisable(true);
         testStringTextField.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-prompt-text-fill: grey");
-        testStringButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-font-size: 14.5; -fx-background-radius: 30; -fx-font-weight: bold");
-        testStringButton.setDisable(true);
-
-        testStringTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.isEmpty()) {
-                testStringButton.setDisable(false);
-            }
-            else {
-                testStringButton.setDisable(true);
-            }
-        });
+        testStringButton.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        testStringButton.getStyleClass().add("testString-button");
 
         Line line = new Line();
         line.setStartX(20);
@@ -349,24 +341,25 @@ public class MainController implements Initializable {
         TextField label = new TextField();
         label.setPromptText("String");
         label.setStyle("-fx-font-size: 14");
-        label.setTranslateX(-5);
+        label.setTranslateX(-42.5);
         label.setTranslateY(-18);
         label.setMaxWidth(130);
         label.setPrefHeight(30);
 
         Button submitNewString = new Button();
+        submitNewString.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        submitNewString.getStyleClass().add("submitNewString-button");
 
         Button removeFocus = new Button();
         removeFocus.setMaxSize(0, 0);
         removeFocus.setTranslateX(-20000);
 
         submitNewString.disableProperty().bind(Bindings.isEmpty(label.textProperty()));
-        submitNewString.setText("+");
-        submitNewString.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
-        newStringStackPane.setPrefSize(270, 100);
-        submitNewString.setTranslateX(80);
+        submitNewString.setText("Add String");
+        submitNewString.setStyle("-fx-font-size: 11; -fx-max-width: 75; -fx-pref-height: 28.3");
+        newStringStackPane.setPrefSize(240, 100);
+        submitNewString.setTranslateX(70);
         submitNewString.setTranslateY(-18.5);
-        submitNewString.setPrefSize(30, 30);
 
         submitNewString.setOnAction(event -> {
             handleAddString(label.getText());
@@ -377,6 +370,8 @@ public class MainController implements Initializable {
         });
 
         Button closeWindow = new Button();
+        closeWindow.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        closeWindow.getStyleClass().add("newStringCloseWindow-button");
         closeWindow.setText("Close");
         closeWindow.setTranslateY(30);
         closeWindow.setOnAction(event -> {
@@ -397,12 +392,22 @@ public class MainController implements Initializable {
         popup.setTitle("Add State");
 
         CheckBox isFinalStateCheckBox = new CheckBox("Final state");
-        isFinalStateCheckBox.setTranslateY(10);
+        isFinalStateCheckBox.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        isFinalStateCheckBox.getStyleClass().add("finalState-checkbox");
+        isFinalStateCheckBox.setTranslateY(-15);
         isFinalStateCheckBox.setTranslateX(-4);
-        isFinalStateCheckBox.setStyle("-fx-font-size: 14");
 
+        isFinalStateCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                isFinalStateCheckBox.getStyleClass().add("selected");
+            } else {
+                isFinalStateCheckBox.getStyleClass().remove("selected");
+            }
+        });
 
         Button submitNewState = new Button();
+        submitNewState.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        submitNewState.getStyleClass().add("submitNewState-button");
 
         Button removeFocus = new Button();
         removeFocus.setMaxSize(0, 0);
@@ -410,9 +415,9 @@ public class MainController implements Initializable {
 
         newStateStackPane.getChildren().addAll(removeFocus, isFinalStateCheckBox, submitNewState);
 
-        submitNewState.setText("Confirm");
-        newStateStackPane.setPrefSize(250, 200);
-        submitNewState.setTranslateY(75);
+        submitNewState.setText("Add State");
+        newStateStackPane.setPrefSize(150, 100);
+        submitNewState.setTranslateY(30);
         submitNewState.setOnAction(event -> {
             this.isFinalState = isFinalStateCheckBox.isSelected();
             handleAddState();
@@ -474,6 +479,20 @@ public class MainController implements Initializable {
 
     @FXML
     private void addTransitionButton(ActionEvent actionEvent) {
+
+        if(automaton.getSigma().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Transition Error");
+            alert.setHeaderText("An error has occurred");
+            alert.setContentText("Adding at least one string to Σ is required.");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+            alert.getDialogPane().getStyleClass().add("transition-alert");
+
+            // Mostra il popup e attendi finché l'utente non lo chiude
+            alert.showAndWait();
+            return;
+        }
+
         StackPane newTransitionStackPane = new StackPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
@@ -486,6 +505,8 @@ public class MainController implements Initializable {
         label.setPrefHeight(30);
 
         ComboBox<String> from = new ComboBox<>();
+        from.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        from.getStyleClass().add("combobox");
         from.setVisibleRowCount(3);
         from.setPromptText("From");
         // Creazione di menu items all'interno del menu File
@@ -497,6 +518,8 @@ public class MainController implements Initializable {
 
 
         ComboBox<String> to = new ComboBox<>();
+        to.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        to.getStyleClass().add("combobox");
         to.setVisibleRowCount(3);
         to.setPromptText("To");
 
@@ -508,6 +531,8 @@ public class MainController implements Initializable {
         to.setPrefSize(135, 30);
 
         Button submitNewTransition = new Button();
+        submitNewTransition.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        submitNewTransition.getStyleClass().add("submitNewString-button");
 
         Button removeFocus = new Button();
         removeFocus.setMaxSize(0, 0);
@@ -516,10 +541,8 @@ public class MainController implements Initializable {
 
         submitNewTransition.disableProperty().bind(Bindings.isEmpty(label.textProperty()).or(from.valueProperty().isNull()).or(to.valueProperty().isNull()));
         submitNewTransition.setText("Confirm");
-        newTransitionStackPane.setPrefSize(270, 200);
+        newTransitionStackPane.setPrefSize(200, 200);
         submitNewTransition.setTranslateY(78);
-
-
 
         from.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             currentState = newValue;
@@ -531,7 +554,6 @@ public class MainController implements Initializable {
 
         submitNewTransition.setOnAction(event -> {
             handleAddTransition(currentState, label.getText(), nextState);
-            testStringTextField.setDisable(false);
             ((Stage)newTransitionStackPane.getScene().getWindow()).close();
         });
         Scene popupScene = new Scene(newTransitionStackPane);
@@ -545,7 +567,15 @@ public class MainController implements Initializable {
                 !automaton.getQ().contains(currentState) ||
                 !automaton.getQ().contains(nextState)) {
             System.err.println("Invalid transition input or state.");
-            return;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Transition Error");
+            alert.setHeaderText("An error has occurred");
+            alert.setContentText("Invalid transition: label is not a string in Σ");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+            alert.getDialogPane().getStyleClass().add("transition-alert");
+            // Mostra il popup e attendi finché l'utente non lo chiude
+            alert.showAndWait();
+            addTransitionButton(new ActionEvent());
         }
 
         if (automaton.addTransition(currentState, transitionInput, nextState) == -1) {
@@ -556,9 +586,9 @@ public class MainController implements Initializable {
         System.out.println("Added transition Delta(" + currentState + ", " + transitionInput + ") = " + nextState);
 
         regenerateTransitions(false, false);
+        deltaEmpty = false;
         populateDeltaTable();
     }
-
 
     private void clearTransitions() {
         for (QuadCurve curve : transitionCurves.values()) {
@@ -1203,6 +1233,17 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleTestString(ActionEvent event) {
+        if(deltaEmpty) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("String Test Error");
+            alert.setHeaderText("An error has occurred");
+            alert.setContentText("Adding at least one transition is required.");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+            alert.getDialogPane().getStyleClass().add("transition-alert");
+            alert.showAndWait();
+            return;
+        }
+
         String testString = testStringTextField.getText().trim();
         if (testString.isEmpty()) {
             resultLabel.setTextFill(Color.RED);
@@ -1227,10 +1268,10 @@ public class MainController implements Initializable {
     @FXML
     private void handleClear() {
         automaton.clearAll();
+        deltaEmpty = true;
         regenerateTransitions(false, false);
         populateDeltaTable();
         updateAlphabet();
-        testStringTextField.setDisable(true);
         List<StackPane> toBeDeleted = new ArrayList<>();
         for(Node node: mainAnchorPane.getChildren()) {
             if(node instanceof StackPane)

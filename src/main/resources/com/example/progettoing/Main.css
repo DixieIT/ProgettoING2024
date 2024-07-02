@@ -68,3 +68,103 @@
     -fx-border-color: #0066cc; /* Blue border when focused */
     -fx-border-width: 2px;
 }
+
+/* Stile generale per l'Alert */
+.transition-alert .dialog-pane {
+    -fx-background-color: #ffcccc; /* Colore di sfondo rosso chiaro */
+}
+
+/* Stile per il pulsante OK */
+.transition-alert .button {
+    -fx-background-color: #ff6666; /* Colore di sfondo rosso medio */
+    -fx-text-fill: white; /* Colore del testo bianco */
+    -fx-font-size: 12;
+}
+
+/* Stile per il pulsante OK quando è in hover */
+.transition-alert .button:hover {
+    -fx-background-color: #ff4d4d; /* Colore di sfondo rosso scuro quando è in hover */
+}
+
+/* Stile per il pulsante OK quando è premuto (opzionale) */
+.transition-alert .button:pressed {
+    -fx-background-color: #f13232; /* Colore di sfondo rosso ancora più scuro quando è premuto */
+}
+
+.transition-alert .header-panel {
+    -fx-font-size: 14;
+}
+
+.finalState-checkbox {
+    -fx-font-size: 14;
+    -fx-background-insets: 0;
+}
+
+.finalState-checkbox .box {
+    -fx-background-color: #dedcdc;
+    -fx-border-width: 1;
+    -fx-border-color: #b0afaf;
+}
+
+.finalState-checkbox:selected .box {
+    -fx-background-insets: 0;
+}
+
+.finalState-checkbox:selected .box > .mark {
+    -fx-background-color: #01a801;
+}
+
+.submitNewState-button {
+    -fx-background-color: #01a801;
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+}
+
+.submitNewState-button:hover {
+    -fx-background-color: #008000;
+}
+
+.submitNewState-button:pressed {
+    -fx-background-color: #015e01;
+}
+
+.submitNewString-button {
+    -fx-background-color: #01a801;
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+}
+
+.submitNewString-button:hover {
+    -fx-background-color: #008000;
+}
+
+.submitNewString-button:pressed {
+    -fx-background-color: #015e01;
+}
+
+.testString-button {
+    -fx-background-color: #f5ac3f;
+    -fx-font-size: 15.5;
+}
+
+/* Stile per il pulsante OK quando è in hover */
+.testString-button:hover {
+    -fx-background-color: #f8b758; /* Colore di sfondo rosso scuro quando è in hover */
+}
+
+/* Stile per il pulsante OK quando è premuto (opzionale) */
+.testString-button:pressed {
+    -fx-background-color: #e5a84d; /* Colore di sfondo rosso ancora più scuro quando è premuto */
+}
+
+.newStringCloseWindow-button:pressed {
+    -fx-background-color: #d2d1d1;
+}
+
+.combobox:pressed {
+    -fx-background-color: #d2d1d1;
+}
+
+.combobox {
+    -fx-border-width: 0;
+}
