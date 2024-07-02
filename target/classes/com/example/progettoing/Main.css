@@ -79,7 +79,7 @@
 
 /* Stile per il pulsante OK */
 .transition-alert .button {
-    -fx-background-color: #ff6666; /* Colore di sfondo rosso medio */
+    -fx-background-color: #ff3c3c; /* Colore di sfondo rosso medio */
     -fx-text-fill: white; /* Colore del testo bianco */
     -fx-font-size: 12;
     -fx-font-family: Arial;
@@ -152,19 +152,17 @@
 
 .testString-button {
     -fx-background-color: #f5ac3f;
-    -fx-font-size: 15.5;
+    -fx-font-size: 17;
     -fx-border-radius: 5;
     -fx-font-family: Arial;
 }
 
-/* Stile per il pulsante OK quando è in hover */
 .testString-button:hover {
-    -fx-background-color: #f8b758; /* Colore di sfondo rosso scuro quando è in hover */
+    -fx-background-color: #f8b758;
 }
 
-/* Stile per il pulsante OK quando è premuto (opzionale) */
 .testString-button:pressed {
-    -fx-background-color: #e5a84d; /* Colore di sfondo rosso ancora più scuro quando è premuto */
+    -fx-background-color: #e5a84d;
 }
 
 .newStringCloseWindow-button:pressed {
@@ -179,13 +177,11 @@
     -fx-border-width: 0;
 }
 
-/* Disattiva l'evidenziazione degli elementi interni quando il ComboBox è espanso */
 .alphabet-combobox .list-cell:armed {
-    -fx-background-color: inherit; /* Imposta lo sfondo in base al controllo genitore */
-    -fx-background-insets: 0; /* Rimuove eventuali insetti di sfondo */
+    -fx-background-color: inherit;
+    -fx-background-insets: 0;
 }
 
-/* Disattiva l'evidenziazione del focus sugli elementi interni */
 .alphabet-combobox .list-cell:focused {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
@@ -230,4 +226,17 @@
     -fx-pref-height: 0;
     -fx-max-height: 0;
     -fx-min-height: 0;
+}
+
+#clearGraphButton {
+    -fx-text-fill: white;
+    -fx-background-color: #e33939;
+}
+
+#clearGraphButton:hover {
+    -fx-background-color: #e84646;
+}
+
+#clearGraphButton:pressed {
+    -fx-background-color: #fa4f4f;
 }
