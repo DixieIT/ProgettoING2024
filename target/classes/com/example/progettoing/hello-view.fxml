@@ -20,7 +20,6 @@
                                   <!-- Test String Area -->
                 <TextField fx:id="testStringTextField" layoutX="151.0" layoutY="194.0" prefHeight="32.5" prefWidth="325.0" promptText="Insert a string to test" />
                 <Button fx:id="testStringButton" layoutX="484.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleTestString" prefHeight="24.0" text="Test" />
-            <ComboBox fx:id="comboBoxAlphabet" layoutX="497.0" layoutY="145.0" promptText="View strings in Σ" />
             <Button layoutX="95.0" layoutY="65.0" mnemonicParsing="false" onAction="#addStringButton" prefHeight="19.0" prefWidth="182.0" text="Add a String to the Alphabet Σ" />
          </children>
         </AnchorPane>

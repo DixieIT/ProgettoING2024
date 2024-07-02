@@ -56,8 +56,6 @@ public class MainController implements Initializable {
     private TextField transitionInputTextField;
     @FXML
     private TextField nextStateTextField;
-    @FXML
-    private ComboBox<String> comboBoxAlphabet;
 
     @FXML
     private TextField sigmaTextField;
@@ -100,7 +98,6 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         stackPanes = new ArrayList<>();
-        comboBoxAlphabet.setDisable(true);
 
         Platform.runLater(() -> {
             Stage primaryStage = (Stage)mainAnchorPane.getScene().getWindow();
@@ -350,13 +347,9 @@ public class MainController implements Initializable {
         submitNewString.setOnAction(event -> {
             handleAddString(label.getText());
             updateSigmaTable();
-            if(comboBoxAlphabet.isDisabled())
-                comboBoxAlphabet.setDisable(false);
             label.clear();
         });
 
-        comboBoxAlphabet.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
-        comboBoxAlphabet.getStyleClass().add("alphabet-combobox");
 
         Button closeWindow = new Button();
         closeWindow.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
@@ -1195,7 +1188,16 @@ public class MainController implements Initializable {
     @FXML
     private void handleAddString(String newString) {
         Set<String> sigma = automaton.getSigma();
-        if (!newString.isEmpty()) {
+        if(automaton.getSigma().contains(newString)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("String Adding Error");
+            alert.setHeaderText("An error has occurred");
+            alert.setContentText("The string \"" + newString + "\" is already present in Σ");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+            alert.getDialogPane().getStyleClass().add("transition-alert");
+            alert.showAndWait();
+        }
+        else {
             automaton.addString(newString);
         }
     }
