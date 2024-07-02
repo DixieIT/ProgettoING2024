@@ -109,9 +109,10 @@ public class MainController implements Initializable {
 
         Group q0_arrow = new Group();
 
-        testStringTextField.setStyle("-fx-border-color: black; -fx-background-color: white; -fx-prompt-text-fill: grey");
+        testStringTextField.setStyle("-fx-border-color: lightgrey; -fx-background-color: white; -fx-prompt-text-fill: grey; -fx-border-radius: 5; -fx-font-family: Arial;");
         testStringButton.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
         testStringButton.getStyleClass().add("testString-button");
+        testStringButton.setTranslateY(1);
 
         Line line = new Line();
         line.setStartX(20);
@@ -302,6 +303,7 @@ public class MainController implements Initializable {
         }
         comboBoxAlphabet.setVisibleRowCount(15);
 
+        comboBoxAlphabet.setStyle("-fx-font-family: Arial");
         //only view ComboBox
         comboBoxAlphabet.setCellFactory(param -> new ListCell<String>() {
             @Override
@@ -340,7 +342,7 @@ public class MainController implements Initializable {
 
         TextField label = new TextField();
         label.setPromptText("String");
-        label.setStyle("-fx-font-size: 14");
+        label.setStyle("-fx-font-size: 14; -fx-font-family: Arial;");
         label.setTranslateX(-42.5);
         label.setTranslateY(-18);
         label.setMaxWidth(130);
@@ -356,7 +358,7 @@ public class MainController implements Initializable {
 
         submitNewString.disableProperty().bind(Bindings.isEmpty(label.textProperty()));
         submitNewString.setText("Add String");
-        submitNewString.setStyle("-fx-font-size: 11; -fx-max-width: 75; -fx-pref-height: 28.3");
+        submitNewString.setStyle("-fx-font-size: 12; -fx-max-width: 73; -fx-pref-height: 28.3; -fx-font-family: Arial;");
         newStringStackPane.setPrefSize(240, 100);
         submitNewString.setTranslateX(70);
         submitNewString.setTranslateY(-18.5);
@@ -369,10 +371,14 @@ public class MainController implements Initializable {
             label.clear();
         });
 
+        comboBoxAlphabet.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        comboBoxAlphabet.getStyleClass().add("alphabet-combobox");
+
         Button closeWindow = new Button();
         closeWindow.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
         closeWindow.getStyleClass().add("newStringCloseWindow-button");
         closeWindow.setText("Close");
+        closeWindow.setStyle("-fx-font-family: Arial");
         closeWindow.setTranslateY(30);
         closeWindow.setOnAction(event -> {
             ((Stage)newStringStackPane.getScene().getWindow()).close();
@@ -463,7 +469,7 @@ public class MainController implements Initializable {
         String stateId = "q" + automaton.getStateSize();
         Label textField = new Label(stateId);
         textField.setMaxWidth(30);
-        textField.setStyle("-fx-font-weight: bold; -fx-font-size: 15");
+        textField.setStyle("-fx-font-weight: bold; -fx-font-size: 15; -fx-font-family: Arial;");
         textField.setAlignment(Pos.CENTER);
         textField.setId("StateText");
 
@@ -779,7 +785,7 @@ public class MainController implements Initializable {
             accepted.setText("The string \"" + testStringTextField.getText() + "\" is not accepted." );
             accepted.setTextFill(Color.RED);
         }
-        accepted.setStyle("-fx-font-size: 20");
+        accepted.setStyle("-fx-font-size: 20; -fx-font-family: Arial;");
         accepted.setTranslateY(58);
         StackPane stackPaneTitle = new StackPane();
         stackPaneTitle.getChildren().addAll(popupTitle, accepted);
@@ -1042,7 +1048,7 @@ public class MainController implements Initializable {
         labelText.setFill(Color.BLACK);
         labelText.setTranslateX(-22);
         labelText.setTranslateY(10);
-        labelText.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
+        labelText.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-font-family: Arial;");
 
         if(isPopup) {
             Text labelTextPopup = new Text(labelText.getText());
@@ -1059,7 +1065,7 @@ public class MainController implements Initializable {
                 labelTextPopup.setTranslateY(10);
                 labelTextPopup.setTranslateX(-20);
             }
-            labelTextPopup.setStyle("-fx-font-size: 16.5; -fx-font-weight: bold");
+            labelTextPopup.setStyle("-fx-font-size: 16.5; -fx-font-weight: bold; -fx-font-family: Arial;");
 
             if(hasToBeColored) {
                 if(isAccepted)
@@ -1120,7 +1126,7 @@ public class MainController implements Initializable {
 
         Text text = new Text(midX, midY, transitionInput);
         text.setFill(Color.BLACK);
-        text.setStyle("-fx-font-size: 14; -fx-font-weight: bold");
+        text.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-font-family: Arial;");
 
         double offsetX = 10;
         double offsetY = -40; // Slightly negative to move it closer

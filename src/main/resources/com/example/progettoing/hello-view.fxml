@@ -17,8 +17,8 @@
          <children>
       
                                   <!-- Test String Area -->
-                <TextField fx:id="testStringTextField" layoutX="74.0" layoutY="148.0" prefHeight="25.0" prefWidth="325.0" promptText="Insert a string to test" />
-                <Button fx:id="testStringButton" layoutX="408.0" layoutY="148.0" mnemonicParsing="false" onAction="#handleTestString" text="Test" />
+                <TextField fx:id="testStringTextField" layoutX="74.0" layoutY="148.0" prefHeight="32.5" prefWidth="325.0" promptText="Insert a string to test" />
+                <Button fx:id="testStringButton" layoutX="408.0" layoutY="148.0" prefHeight="24.0" mnemonicParsing="false" onAction="#handleTestString" text="Test" />
             <ComboBox fx:id="comboBoxAlphabet" layoutX="497.0" layoutY="145.0" promptText="View strings in Σ" />
          </children>
         </AnchorPane>

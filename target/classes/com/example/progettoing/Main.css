@@ -45,6 +45,7 @@
     -fx-background-color: #d3d3d3;
     -fx-text-fill: #333333;
     -fx-font-size: 14px;
+    -fx-font-family: Arial;
     -fx-font-weight: bold;
 }
 
@@ -53,6 +54,7 @@
     -fx-border-color: transparent;
     -fx-text-fill: #333333;
     -fx-font-size: 14px;
+    -fx-font-family: Arial;
 }
 
 /* Styling for the TextFields */
@@ -62,6 +64,7 @@
     -fx-border-width: 1px;
     -fx-padding: 5px; /* Padding inside the TextField */
     -fx-font-size: 14px; /* Font size */
+    -fx-font-family: Arial;
 }
 
 .text-field:focused {
@@ -79,6 +82,7 @@
     -fx-background-color: #ff6666; /* Colore di sfondo rosso medio */
     -fx-text-fill: white; /* Colore del testo bianco */
     -fx-font-size: 12;
+    -fx-font-family: Arial;
 }
 
 /* Stile per il pulsante OK quando è in hover */
@@ -93,11 +97,13 @@
 
 .transition-alert .header-panel {
     -fx-font-size: 14;
+    -fx-font-family: Arial;
 }
 
 .finalState-checkbox {
     -fx-font-size: 14;
     -fx-background-insets: 0;
+    -fx-font-family: Arial;
 }
 
 .finalState-checkbox .box {
@@ -118,6 +124,7 @@
     -fx-background-color: #01a801;
     -fx-text-fill: white;
     -fx-font-size: 12;
+    -fx-font-family: Arial;
 }
 
 .submitNewState-button:hover {
@@ -132,6 +139,7 @@
     -fx-background-color: #01a801;
     -fx-text-fill: white;
     -fx-font-size: 12;
+    -fx-font-family: Arial;
 }
 
 .submitNewString-button:hover {
@@ -145,6 +153,8 @@
 .testString-button {
     -fx-background-color: #f5ac3f;
     -fx-font-size: 15.5;
+    -fx-border-radius: 5;
+    -fx-font-family: Arial;
 }
 
 /* Stile per il pulsante OK quando è in hover */
@@ -167,4 +177,16 @@
 
 .combobox {
     -fx-border-width: 0;
+}
+
+/* Disattiva l'evidenziazione degli elementi interni quando il ComboBox è espanso */
+.alphabet-combobox .list-cell:armed {
+    -fx-background-color: inherit; /* Imposta lo sfondo in base al controllo genitore */
+    -fx-background-insets: 0; /* Rimuove eventuali insetti di sfondo */
+}
+
+/* Disattiva l'evidenziazione del focus sugli elementi interni */
+.alphabet-combobox .list-cell:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
 }
