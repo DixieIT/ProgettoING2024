@@ -202,7 +202,7 @@
 }
 
 .deltaTable .table-cell:filled {
-    -fx-border-width: 1 0 0 0;
+    -fx-border-width: 0 0 0 0;
     -fx-border-color: #727171;
     -fx-background-color: #c9c9c9;
     -fx-alignment: center;
