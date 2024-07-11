@@ -65,11 +65,6 @@ public class Automa {
         this.delta.clear();
     }
 
-    public void clearQ() {
-        this.Q.clear();
-        this.Q.add("q0");
-    }
-
     public String printQ() {
         StringBuilder sb = new StringBuilder();
         for (String state : Q) {
@@ -79,10 +74,6 @@ public class Automa {
             sb.delete(sb.length() - 2, sb.length());
         }
         return sb.toString();
-    }
-
-    public void setF() {
-        this.F.clear();
     }
 
     public String printF() {
@@ -96,10 +87,6 @@ public class Automa {
         return sb.toString();
     }
 
-    public void setSigma() {
-        this.Sigma.clear();
-    }
-
     public String printSigma() {
         StringBuilder sb = new StringBuilder();
         for (String string : Sigma) {
@@ -110,10 +97,6 @@ public class Automa {
         }
 
         return sb.toString();
-    }
-
-    public void setDelta() {
-        this.delta.clear();
     }
 
     public void printDelta() {
@@ -174,6 +157,7 @@ public class Automa {
     }
 
     public boolean isStringAccepted(String input) {
+        System.out.println(F);
         String currentState = q_0;
         int pos = 0;
         path.clear(); // Clear previous path

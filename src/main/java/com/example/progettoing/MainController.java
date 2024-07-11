@@ -25,6 +25,7 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.*;
@@ -48,6 +49,8 @@ public class MainController implements Initializable {
 
     @FXML
     private StackPane q0;
+    @FXML
+    private Label StateText;
     @FXML
     private TextField currentStateTextField;
     @FXML
@@ -97,17 +100,61 @@ public class MainController implements Initializable {
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initialize();
+    }
+
+    private void initialize() {
         stackPanes = new ArrayList<>();
 
-        Platform.runLater(() -> {
-            Stage primaryStage = (Stage)mainAnchorPane.getScene().getWindow();
-            primaryStage.setMaximized(true);
+        StackPane newStateStackPane = new StackPane();
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Add State");
+        popup.initStyle(StageStyle.UNDECORATED);
+        CheckBox isFinalStateCheckBox = new CheckBox("q0 Final state");
+        isFinalStateCheckBox.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        isFinalStateCheckBox.getStyleClass().add("finalState-checkbox");
+        isFinalStateCheckBox.setTranslateY(-15);
+        isFinalStateCheckBox.setTranslateX(-4);
+
+        isFinalStateCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                isFinalStateCheckBox.getStyleClass().add("selected");
+            } else {
+                isFinalStateCheckBox.getStyleClass().remove("selected");
+            }
         });
+
+        Button submitNewState = new Button();
+        submitNewState.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
+        submitNewState.getStyleClass().add("submitNewState-button");
+
+        Button removeFocus = new Button();
+        removeFocus.setMaxSize(0, 0);
+        removeFocus.setTranslateX(-20000);
+
+        newStateStackPane.getChildren().addAll(removeFocus, isFinalStateCheckBox, submitNewState);
+
+        submitNewState.setText("Add State");
+        newStateStackPane.setPrefSize(150, 100);
+        submitNewState.setTranslateY(30);
+        submitNewState.setOnAction(event -> {
+            if(isFinalStateCheckBox.isSelected())
+                automaton.getF().add("q0");
+            ((Stage)newStateStackPane.getScene().getWindow()).close();
+            Platform.runLater(() -> {
+                Stage mainStage = (Stage) mainAnchorPane.getScene().getWindow();
+                mainStage.setMaximized(true); // Massimizza la scena principale
+            });
+        });
+
+        Scene popupScene = new Scene(newStateStackPane);
+        popup.setScene(popupScene);
+        popup.showAndWait();
 
         double layoutX = q0.getLayoutX();
         double layoutY = q0.getLayoutY();
         System.out.println("Initial State (q0) LayoutX: " + layoutX + ", LayoutY: " + layoutY);
-
 
         Group q0_arrow = new Group();
 
@@ -156,12 +203,20 @@ public class MainController implements Initializable {
         });
         arrow.setFill(Color.BLACK);
         arrow.setTranslateX(7);
+        if(automaton.getF().contains("q0")) {
+            Circle circle = new Circle();
+            circle.setRadius(45);
+            circle.setStroke(Color.BLACK);
+            circle.setStrokeWidth(1.8);
+            circle.setFill(Color.WHITE);
+            q0.getChildren().add(circle);
+            StateText.toFront();
+        }
         q0_arrow.getChildren().addAll(arrow, line, q0);
         q0_arrow.setTranslateY(180);
 
         groupStackPane.getChildren().add(q0_arrow);
 
-        mainAnchorPane.getChildren().add(groupStackPane);
         draggableMaker.makeDraggable(groupStackPane, stateAnchorPane, true);
         addMovementListeners(groupStackPane);
         stackPanes.add(groupStackPane);
@@ -170,6 +225,7 @@ public class MainController implements Initializable {
         currentStateColumn.setCellValueFactory(new PropertyValueFactory<>("currentState"));
         inputColumn.setCellValueFactory(new PropertyValueFactory<>("input"));
         nextStateColumn.setCellValueFactory(new PropertyValueFactory<>("nextState"));
+        mainAnchorPane.getChildren().add(groupStackPane);
     }
 
     private void addMovementListeners(StackPane statePane) {
@@ -1276,13 +1332,12 @@ public class MainController implements Initializable {
         List<StackPane> toBeDeleted = new ArrayList<>();
         for(Node node: mainAnchorPane.getChildren()) {
             if(node instanceof StackPane)
-                if(!node.equals(groupStackPane))
-                    toBeDeleted.add((StackPane)node);
+                toBeDeleted.add((StackPane)node);
         }
         for(StackPane stackPane: toBeDeleted) {
             mainAnchorPane.getChildren().remove(stackPane);
             stackPanes.remove(stackPane);
         }
+        initialize();
     }
-
 }
