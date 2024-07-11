@@ -100,14 +100,8 @@ public class Automa {
     }
 
     public void printDelta() {
-        System.out.println("Transition Function Delta:");
         for (String state : Q) {
             Map<String, String> transitions = delta.get(state);
-            if (transitions != null) { // Check if transitions is not null
-                for (Map.Entry<String, String> entry : transitions.entrySet()) {
-                    System.out.println("Delta(" + state + ", " + entry.getKey() + ") = " + entry.getValue());
-                }
-            }
         }
     }
 
@@ -157,7 +151,6 @@ public class Automa {
     }
 
     public boolean isStringAccepted(String input) {
-        System.out.println(F);
         String currentState = q_0;
         int pos = 0;
         path.clear(); // Clear previous path
@@ -174,7 +167,6 @@ public class Automa {
                     longestMatchLength = length;
                     break; // Exit the loop once the longest match is found
                 }
-                System.out.println(subStr);
             }
 
             if (longestMatch == null) {

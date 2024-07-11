@@ -31,7 +31,7 @@
 
 /* General styling for the entire application */
 .root {
-    -fx-font-family: "Arial";
+    -fx-font-family: "Roboto";
 }
 
 /* Styling for the TableView */
@@ -45,7 +45,7 @@
     -fx-background-color: #d3d3d3;
     -fx-text-fill: #333333;
     -fx-font-size: 14px;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
     -fx-font-weight: bold;
 }
 
@@ -54,7 +54,7 @@
     -fx-border-color: transparent;
     -fx-text-fill: #333333;
     -fx-font-size: 14px;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 /* Styling for the TextFields */
@@ -64,7 +64,7 @@
     -fx-border-width: 1px;
     -fx-padding: 5px; /* Padding inside the TextField */
     -fx-font-size: 14px; /* Font size */
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 .text-field:focused {
@@ -82,7 +82,7 @@
     -fx-background-color: #ff3c3c; /* Colore di sfondo rosso medio */
     -fx-text-fill: white; /* Colore del testo bianco */
     -fx-font-size: 12;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 /* Stile per il pulsante OK quando è in hover */
@@ -97,13 +97,13 @@
 
 .transition-alert .header-panel {
     -fx-font-size: 14;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 .finalState-checkbox {
     -fx-font-size: 14;
     -fx-background-insets: 0;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 .finalState-checkbox .box {
@@ -124,7 +124,7 @@
     -fx-background-color: #01a801;
     -fx-text-fill: white;
     -fx-font-size: 12;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 .submitNewState-button:hover {
@@ -139,7 +139,7 @@
     -fx-background-color: #01a801;
     -fx-text-fill: white;
     -fx-font-size: 12;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
 }
 
 .submitNewString-button:hover {
@@ -151,18 +151,20 @@
 }
 
 .testString-button {
-    -fx-background-color: #f5ac3f;
+    -fx-background-color: #143b64;
     -fx-font-size: 17;
     -fx-border-radius: 5;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
 
 .testString-button:hover {
-    -fx-background-color: #f8b758;
+    -fx-background-color: #184472;
 }
 
 .testString-button:pressed {
-    -fx-background-color: #e5a84d;
+    -fx-background-color: #1c4e83;
 }
 
 .newStringCloseWindow-button:pressed {
@@ -189,7 +191,7 @@
 
 .deltaTable {
     -fx-alignment: center;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
     -fx-font-size: 15;
     -fx-background-color: #c9c9c9;
 }
@@ -197,7 +199,7 @@
 .deltaTable .table-cell {
     -fx-border-color: transparent;
     -fx-alignment: center;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
     -fx-font-size: 15;
 }
 
@@ -206,7 +208,7 @@
     -fx-border-color: #727171;
     -fx-background-color: #c9c9c9;
     -fx-alignment: center;
-    -fx-font-family: Arial;
+    -fx-font-family: Roboto;
     -fx-font-size: 15;
     -fx-pref-height: 30;
     -fx-font-weight: bold;

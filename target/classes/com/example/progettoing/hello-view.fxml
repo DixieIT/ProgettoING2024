@@ -22,19 +22,19 @@
          <children>
             <Label alignment="TOP_CENTER" layoutX="276.0" layoutY="61.0" prefHeight="38.0" prefWidth="454.0" text="WORD AUTOMATON">
                <font>
-                  <Font name="Arial Bold Italic" size="34.0" />
+                  <Font name="Roboto Bold Italic" size="34.0" />
                </font>
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
                         <Stop>
                            <color>
-                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
+                              <Color red="0.12941177189350128" green="0.12156862765550613" blue="0.2823529541492462" />
                            </color>
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
+                              <Color red="0.13333334028720856" green="0.43529412150382996" blue="0.6823529601097107" />
                            </color>
                         </Stop>
                      </stops>
@@ -43,15 +43,15 @@
             </Label>
             <Label alignment="TOP_CENTER" layoutX="25.0" layoutY="128.0" prefHeight="38.0" prefWidth="472.0" text="To add a string to the Σ alphabet " translateY="25.0">
                <font>
-                  <Font name="Arial" size="32.0" />
+                  <Font name="Roboto" size="32.0" />
                </font>
             </Label>
-            <Label alignment="TOP_CENTER" layoutX="25.0" layoutY="206.0" prefHeight="38.0" prefWidth="445.0" text="To add a transition to the graph" translateY="25.0">
+            <Label alignment="TOP_CENTER" layoutX="25.0" layoutY="206.0" prefHeight="47.0" prefWidth="452.0" text="To add a transition to the graph" translateY="25.0">
                <font>
-                  <Font name="Arial" size="32.0" />
+                  <Font name="Roboto" size="32.0" />
                </font>
             </Label>
-            <Polygon layoutX="755.0" layoutY="182.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
+            <Polygon layoutX="755.0" layoutY="182.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" strokeType="INSIDE">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -62,30 +62,62 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
+                              <Color />
                            </color>
                         </Stop>
                      </stops>
                   </LinearGradient>
                </fill>
+               <stroke>
+                  <LinearGradient endX="1.0" endY="0.24242425597075257" startX="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
             </Polygon>
-            <Polygon layoutX="755.0" layoutY="261.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
+            <Polygon layoutX="755.0" layoutY="261.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" strokeType="INSIDE">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
                         <Stop>
                            <color>
-                              <Color red="0.29847952723503113" green="0.6228616237640381" blue="0.9263157844543457" />
+                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
                            </color>
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
+                              <Color />
                            </color>
                         </Stop>
                      </stops>
                   </LinearGradient>
                </fill>
+               <stroke>
+                  <LinearGradient endX="1.0" endY="0.24242425597075257" startX="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
             </Polygon>
             <Line endX="96.0" layoutX="639.0" layoutY="252.0" startX="-120.33331298828125" strokeWidth="4.0">
                <fill>
@@ -104,57 +136,8 @@
                      </stops>
                   </LinearGradient>
                </fill>
-               <stroke>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </stroke>
             </Line>
-            <Line endX="96.0" layoutX="639.0" layoutY="173.0" startX="-120.33331298828125" strokeWidth="4.0">
-               <fill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </fill>
-               <stroke>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </stroke>
-            </Line>
+            <Line endX="96.0" fill="#4d62a6" layoutX="639.0" layoutY="173.0" startX="-120.33331298828125" strokeWidth="4.0" />
          </children>
         </AnchorPane>
         <AnchorPane fx:id="stateAnchorPane" prefHeight="580.0" prefWidth="1728.5" style="-fx-border-color: black; -fx-border-width: 2 0 2 0; -fx-border-style: solid; -fx-padding: 10">
@@ -179,13 +162,13 @@
             </children>
         </AnchorPane>
         <Label fx:id="resultLabel" layoutX="839.0" layoutY="840.0" />
-        <Button id="clearGraphButton" layoutX="437.0" layoutY="1023.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="50.0" prefWidth="160.0" stylesheets="@Main.css" text="CLEAR GRAPH">
+        <Button id="clearGraphButton" layoutX="816.0" layoutY="930.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="50.0" prefWidth="160.0" stylesheets="@Main.css" text="CLEAR GRAPH">
          <font>
-            <Font name="Arial Bold" size="16.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Button>
       <Button layoutX="816.0" layoutY="835.0" mnemonicParsing="false" onAction="#addStateButton" prefHeight="31.2" prefWidth="160.0" text="NEW STATE" translateY="25.0">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Roboto" size="16.0" />
          </font></Button>
       <TableView fx:id="deltaTableView" layoutX="1303.0" layoutY="632.0" prefHeight="450.0" prefWidth="432.0">
           <columns>
@@ -196,40 +179,40 @@
       </TableView>
       <Label alignment="TOP_CENTER" layoutX="1399.0" layoutY="593.0" prefHeight="38.0" prefWidth="239.0" text="Transition Table">
          <font>
-            <Font name="Arial" size="32.0" />
+            <Font name="Roboto" size="32.0" />
          </font>
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
                   <Stop>
                      <color>
-                        <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
+                        <Color red="0.12941177189350128" green="0.12156862765550613" blue="0.2823529541492462" />
                      </color>
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
+                        <Color red="0.13333334028720856" green="0.43529412150382996" blue="0.6823529601097107" />
                      </color>
                   </Stop>
                </stops>
             </LinearGradient>
          </textFill>
       </Label>
-      <Label alignment="TOP_CENTER" layoutX="1088.0" layoutY="593.0" prefHeight="38.0" prefWidth="156.0" text="Alphabet Σ">
+      <Label alignment="TOP_CENTER" layoutX="1088.0" layoutY="593.0" prefHeight="38.0" prefWidth="156.0" text="Σ Alphabet">
          <font>
-            <Font name="Arial" size="32.0" />
+            <Font name="Roboto" size="32.0" />
          </font>
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
                   <Stop>
                      <color>
-                        <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
+                        <Color red="0.12941177189350128" green="0.12156862765550613" blue="0.2823529541492462" />
                      </color>
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
+                        <Color red="0.13333334028720856" green="0.43529412150382996" blue="0.6823529601097107" />
                      </color>
                   </Stop>
                </stops>
@@ -243,29 +226,29 @@
       </TableView>
 
                                   <!-- Test String Area -->
-          <TextField fx:id="testStringTextField" layoutX="400.0" layoutY="913.0" prefHeight="38.0" prefWidth="258.0" promptText="Insert a string to test" translateX="-30.0" translateY="30.0" />
-          <Button fx:id="testStringButton" layoutX="665.0" layoutY="945.0" mnemonicParsing="false" onAction="#handleTestString" text="Test" translateX="-30.0">
+          <TextField fx:id="testStringTextField" layoutX="400.0" layoutY="913.0" prefHeight="42.0" prefWidth="258.0" promptText="Insert a string to test" translateX="-30.0" translateY="35.0" />
+          <Button fx:id="testStringButton" layoutX="665.0" layoutY="949.0" mnemonicParsing="false" onAction="#handleTestString" prefHeight="38.0" text="Test" translateX="-30.0" translateY="5.0">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Roboto" size="16.0" />
          </font></Button>
       <Label alignment="TOP_CENTER" layoutX="25.0" layoutY="830.0" prefHeight="38.0" prefWidth="452.0" text="To add a new state to the graph" translateY="25.0">
          <font>
-            <Font name="Arial" size="32.0" />
+            <Font name="Roboto" size="32.0" />
          </font>
       </Label>
-      <Button layoutX="816.0" layoutY="753.0" mnemonicParsing="false" onAction="#addTransitionButton" text="NEW TRANSITION" translateY="25.0">
+      <Button layoutX="816.0" layoutY="753.0" mnemonicParsing="false" onAction="#addTransitionButton" prefHeight="37.0" prefWidth="160.0" text="NEW TRANSITION" translateY="25.0">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Roboto" size="16.0" />
          </font>
       </Button>
       <Button layoutX="816.0" layoutY="670.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addStringButton" prefHeight="31.2" prefWidth="160.0" text="NEW STRING" translateY="25.0">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Roboto" size="16.0" />
          </font>
       </Button>
       <Label alignment="TOP_CENTER" layoutX="25.0" layoutY="917.0" prefHeight="38.0" prefWidth="326.0" text="To test the automaton:" translateY="25.0">
          <font>
-            <Font name="Arial" size="32.0" />
+            <Font name="Roboto" size="32.0" />
          </font>
       </Label>
       <Polygon layoutX="755.0" layoutY="885.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
@@ -279,7 +262,7 @@
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
+                        <Color />
                      </color>
                   </Stop>
                </stops>
@@ -297,28 +280,12 @@
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color red="0.5686274766921997" green="0.30588236451148987" blue="0.30588236451148987" />
+                        <Color />
                      </color>
                   </Stop>
                </stops>
             </LinearGradient>
          </fill>
-         <stroke>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.12156862765550613" green="0.4901960790157318" blue="0.8117647171020508" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.843137264251709" green="0.20000000298023224" blue="0.20000000298023224" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </stroke>
       </Line>
     </children>
 </AnchorPane>
