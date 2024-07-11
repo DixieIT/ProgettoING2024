@@ -145,7 +145,7 @@
                 <!-- State Diagram Area -->
                 <StackPane fx:id="q0" layoutX="68.0" layoutY="188.0" prefHeight="200.0" prefWidth="104.0">
                     <children>
-                        <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="1.8" />
+                        <Circle fx:id="firstCircle" fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="1.8" />
                         <Label fx:id="StateText" prefHeight="25.0" prefWidth="73.0" style="-fx-font-size: 15; -fx-font-weight: bold" text="q0" />
                     </children>
                 </StackPane>

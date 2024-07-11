@@ -50,6 +50,8 @@ public class MainController implements Initializable {
     @FXML
     private StackPane q0;
     @FXML
+    private Circle firstCircle;
+    @FXML
     private Label StateText;
     @FXML
     private TextField currentStateTextField;
@@ -1337,6 +1339,14 @@ public class MainController implements Initializable {
         for(StackPane stackPane: toBeDeleted) {
             mainAnchorPane.getChildren().remove(stackPane);
             stackPanes.remove(stackPane);
+        }
+        List<Node> nodesToBeDeleted = new ArrayList<>();
+        for(Node node: q0.getChildren()) {
+            if(node instanceof Circle && !node.equals(firstCircle))
+                nodesToBeDeleted.add(node);
+        }
+        for(Node node: nodesToBeDeleted) {
+            q0.getChildren().remove(node);
         }
         initialize();
     }
