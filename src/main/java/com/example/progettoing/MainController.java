@@ -146,7 +146,7 @@ public class MainController implements Initializable {
             ((Stage)newStateStackPane.getScene().getWindow()).close();
             Platform.runLater(() -> {
                 Stage mainStage = (Stage) mainAnchorPane.getScene().getWindow();
-                mainStage.setMaximized(true); // Massimizza la scena principale
+                mainStage.setMaximized(true);
             });
         });
 
@@ -189,14 +189,13 @@ public class MainController implements Initializable {
         Line line = new Line();
         line.setStartX(20);
         line.setStartY(290);
-        line.setEndX(65); // Lunghezza della freccia
+        line.setEndX(65);
         line.setEndY(290);
         line.setStrokeWidth(2);
         line.setStroke(Color.BLACK);
         line.setTranslateX(0);
         line.setTranslateY(0);
 
-        //unisco in un oggetto Polygon la linea e la punta della freccia
         Polygon arrow = new Polygon();
         arrow.getPoints().addAll(new Double[]{
                 line.getEndX(), line.getEndY(),
@@ -535,8 +534,6 @@ public class MainController implements Initializable {
             alert.setContentText("Adding at least one string to Σ is required.");
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
             alert.getDialogPane().getStyleClass().add("transition-alert");
-
-            // Mostra il popup e attendi finché l'utente non lo chiude
             alert.showAndWait();
             return;
         }
@@ -557,7 +554,6 @@ public class MainController implements Initializable {
         from.getStyleClass().add("combobox");
         from.setVisibleRowCount(3);
         from.setPromptText("From");
-        // Creazione di menu items all'interno del menu File
         for(String s: automaton.getQ()) {
             from.getItems().add(s);
         }
@@ -571,7 +567,6 @@ public class MainController implements Initializable {
         to.setVisibleRowCount(3);
         to.setPromptText("To");
 
-        // Creazione di menu items all'interno del menu File
         for(String s: automaton.getQ()) {
             to.getItems().add(s);
         }
@@ -621,7 +616,6 @@ public class MainController implements Initializable {
             alert.setContentText("Invalid transition: label is not a string in Σ");
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
             alert.getDialogPane().getStyleClass().add("transition-alert");
-            // Mostra il popup e attendi finché l'utente non lo chiude
             alert.showAndWait();
             addTransitionButton(new ActionEvent());
         }
@@ -664,7 +658,7 @@ public class MainController implements Initializable {
 
     private StackPane copyStackPane(StackPane original) {
         StackPane copy = new StackPane();
-        copy.setStyle(original.getStyle()); // Copia lo stile se presente
+        copy.setStyle(original.getStyle());
 
         for (javafx.scene.Node originalChild : original.getChildren()) {
             javafx.scene.Node copiedChild = cloneNode(originalChild);
@@ -673,7 +667,6 @@ public class MainController implements Initializable {
             }
         }
 
-        // Copia la posizione del StackPane originale
         copy.setLayoutX(original.getLayoutX());
         copy.setLayoutY(original.getLayoutY());
 
@@ -708,11 +701,9 @@ public class MainController implements Initializable {
             copiedCircle.setStroke(originalCircle.getStroke());
             copiedCircle.setStrokeWidth(originalCircle.getStrokeWidth());
 
-            // Copia la posizione relativa
             copiedCircle.setLayoutX(originalCircle.getLayoutX());
             copiedCircle.setLayoutY(originalCircle.getLayoutY());
 
-            // Puoi copiare altre proprietà necessarie qui
             return copiedCircle;
         } else if (original instanceof Polygon) {
             Polygon originalPolygon = (Polygon) original;
@@ -721,12 +712,10 @@ public class MainController implements Initializable {
             Polygon copiedPolygon = new Polygon();
             copiedPolygon.getPoints().addAll(points);
 
-            // Copia la posizione relativa
             copiedPolygon.setLayoutX(originalPolygon.getLayoutX());
             copiedPolygon.setLayoutY(originalPolygon.getLayoutY());
             copiedPolygon.setTranslateX(5);
 
-            // Puoi copiare altre proprietà necessarie qui
             return copiedPolygon;
         } else if (original instanceof Line) {
             Line originalLine = (Line) original;
@@ -734,11 +723,9 @@ public class MainController implements Initializable {
                     originalLine.getEndX(), originalLine.getEndY());
             copiedLine.setStroke(originalLine.getStroke());
             copiedLine.setStrokeWidth(originalLine.getStrokeWidth());
-            // Copia la posizione relativa
             copiedLine.setLayoutX(originalLine.getLayoutX());
             copiedLine.setLayoutY(originalLine.getLayoutY());
 
-            // Puoi copiare altre proprietà necessarie qui
             return copiedLine;
         } else if (original instanceof Label) {
             Label originalLabel = (Label) original;
@@ -753,7 +740,6 @@ public class MainController implements Initializable {
             Group originalGroup = (Group) original;
             Group copiedGroup = new Group();
 
-            // Clona ogni nodo interno del Group
             for (Node child : originalGroup.getChildren()) {
                 Node copiedChild = cloneNode(child);
                 if (copiedChild != null) {
@@ -769,12 +755,10 @@ public class MainController implements Initializable {
 
             return copiedGroup;
         } else if (original instanceof StackPane) {
-            // Clona lo StackPane
             StackPane originalStackPane = (StackPane) original;
             StackPane copiedStackPane = new StackPane();
             copiedStackPane.setStyle(originalStackPane.getStyle());
 
-            // Clona ogni nodo figlio dello StackPane
             for (javafx.scene.Node child : originalStackPane.getChildren()) {
                 javafx.scene.Node copiedChild = cloneNode(child);
                 if (copiedChild != null) {
@@ -782,7 +766,6 @@ public class MainController implements Initializable {
                 }
             }
 
-            // Copia la posizione del StackPane originale
             copiedStackPane.setLayoutX(originalStackPane.getLayoutX());
             copiedStackPane.setLayoutY(originalStackPane.getLayoutY());
 
@@ -794,16 +777,13 @@ public class MainController implements Initializable {
             copiedText.setFont(originalText.getFont());
             copiedText.setFill(originalText.getFill());
 
-            // Copia la posizione relativa rispetto al parent
             copiedText.setLayoutX(originalText.getLayoutX());
             copiedText.setLayoutY(originalText.getLayoutY());
 
-            // Puoi copiare altre proprietà necessarie qui per il Text
 
             return copiedText;
         }
         else {
-            // Gestione di altri tipi di nodi se necessario
             return null;
         }
     }
@@ -1348,6 +1328,6 @@ public class MainController implements Initializable {
         for(Node node: nodesToBeDeleted) {
             q0.getChildren().remove(node);
         }
-        initialize();
+        initialize(); 
     }
 }
