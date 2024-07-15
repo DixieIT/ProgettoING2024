@@ -51,7 +51,7 @@
                   <Font name="Roboto" size="32.0" />
                </font>
             </Label>
-            <Polygon layoutX="755.0" layoutY="182.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" strokeType="INSIDE">
+            <Polygon layoutX="755.0" layoutY="182.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.2" scaleY="0.3" strokeType="INSIDE" translateX="-5.0">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -85,7 +85,7 @@
                   </LinearGradient>
                </stroke>
             </Polygon>
-            <Polygon layoutX="755.0" layoutY="261.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" strokeType="INSIDE">
+            <Polygon layoutX="755.0" layoutY="261.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.2" scaleY="0.3" strokeType="INSIDE" translateX="-5.0">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -162,11 +162,11 @@
             </children>
         </AnchorPane>
         <Label fx:id="resultLabel" layoutX="839.0" layoutY="840.0" />
-        <Button id="clearGraphButton" layoutX="816.0" layoutY="930.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="50.0" prefWidth="160.0" stylesheets="@Main.css" text="CLEAR GRAPH">
+        <Button id="clearGraphButton" layoutX="816.0" layoutY="930.0" mnemonicParsing="false" onAction="#clearGraph" prefHeight="50.0" prefWidth="160.0" stylesheets="@Main.css" text="CLEAR GRAPH">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Button layoutX="816.0" layoutY="835.0" mnemonicParsing="false" onAction="#addStateButton" prefHeight="31.2" prefWidth="160.0" text="NEW STATE" translateY="25.0">
+      <Button layoutX="816.0" layoutY="835.0" mnemonicParsing="false" onAction="#addState" prefHeight="31.2" prefWidth="160.0" text="NEW STATE" translateY="25.0">
          <font>
             <Font name="Roboto" size="16.0" />
          </font></Button>
@@ -226,22 +226,23 @@
       </TableView>
 
                                   <!-- Test String Area -->
-          <TextField fx:id="testStringTextField" layoutX="400.0" layoutY="913.0" prefHeight="42.0" prefWidth="258.0" promptText="Insert a string to test" translateX="-30.0" translateY="35.0" />
-          <Button fx:id="testStringButton" layoutX="665.0" layoutY="949.0" mnemonicParsing="false" onAction="#handleTestString" prefHeight="38.0" text="Test" translateX="-30.0" translateY="5.0">
+      <TextField fx:id="testStringTextField" layoutX="400.0" layoutY="913.0" prefHeight="42.0" prefWidth="258.0" promptText="Insert a string to test" translateX="-30.0" translateY="35.0" />
+      <Button fx:id="testStringButton" layoutX="665.0" layoutY="949.0" mnemonicParsing="false" onAction="#testString" prefHeight="38.0" text="Test" translateX="-30.0" translateY="5.0">
          <font>
             <Font name="Roboto" size="16.0" />
-         </font></Button>
+         </font>
+      </Button>
       <Label alignment="TOP_CENTER" layoutX="25.0" layoutY="830.0" prefHeight="38.0" prefWidth="452.0" text="To add a new state to the graph" translateY="25.0">
          <font>
             <Font name="Roboto" size="32.0" />
          </font>
       </Label>
-      <Button layoutX="816.0" layoutY="753.0" mnemonicParsing="false" onAction="#addTransitionButton" prefHeight="37.0" prefWidth="160.0" text="NEW TRANSITION" translateY="25.0">
+      <Button layoutX="816.0" layoutY="753.0" mnemonicParsing="false" onAction="#addTransition" prefHeight="37.0" prefWidth="160.0" text="NEW TRANSITION" translateY="25.0">
          <font>
             <Font name="Roboto" size="16.0" />
          </font>
       </Button>
-      <Button layoutX="816.0" layoutY="670.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addStringButton" prefHeight="31.2" prefWidth="160.0" text="NEW STRING" translateY="25.0">
+      <Button layoutX="816.0" layoutY="670.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addString" prefHeight="31.2" prefWidth="160.0" text="NEW STRING" translateY="25.0">
          <font>
             <Font name="Roboto" size="16.0" />
          </font>
@@ -251,7 +252,7 @@
             <Font name="Roboto" size="32.0" />
          </font>
       </Label>
-      <Polygon layoutX="755.0" layoutY="885.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.3" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
+      <Polygon layoutX="755.0" layoutY="885.0" points="-50.0, 40.0, 50.0, 40.0, 0.0, -60.0" rotate="90.0" scaleX="0.2" scaleY="0.3" stroke="BLACK" strokeType="INSIDE" translateX="-5.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>

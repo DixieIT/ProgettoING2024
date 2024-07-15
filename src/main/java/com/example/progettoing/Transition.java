@@ -23,7 +23,6 @@ public class Transition implements Comparable<Transition> {
         return nextState;
     }
 
-    @Override
     public int compareTo(Transition o) {
         int c = currentState.compareToIgnoreCase(o.currentState);
         if(c == 0) {

@@ -29,7 +29,7 @@ public class Main extends Application {
         Automa automaton = new Automa(q_0, Q, F, Sigma, Delta);
 
         // Load the FXML file for the UI
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("automa-view.fxml"));
 
         // Set the controller and pass the automaton object to the controller
         MainController controller = new MainController(automaton);

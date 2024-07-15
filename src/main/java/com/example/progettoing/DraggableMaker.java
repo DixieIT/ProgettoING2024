@@ -29,7 +29,7 @@ public class DraggableMaker {
 
             double maxX = stateAnchorPane.getWidth() - node.getBoundsInParent().getWidth();
             double maxY = stateAnchorPane.getHeight() - node.getBoundsInParent().getHeight();
-            
+
             if(isQ0) {
                 newX = Math.max(minX, Math.min(newX, maxX - 0.5));
                 newY = Math.max(minY, Math.min(newY, maxY + 46.5));

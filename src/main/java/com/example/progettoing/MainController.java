@@ -92,6 +92,7 @@ public class MainController implements Initializable {
     private Map<String, Text> transitionTexts = new HashMap<>();
     private Map<String, Polygon> transitionArrows = new HashMap<>();
     private final DraggableMaker draggableMaker = new DraggableMaker();
+
     private boolean isFinalState;
     private String currentState, nextState, transitionInput;
 
@@ -107,7 +108,6 @@ public class MainController implements Initializable {
 
     private void initialize() {
         stackPanes = new ArrayList<>();
-
         StackPane newStateStackPane = new StackPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
@@ -372,12 +372,11 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void addStringButton(ActionEvent actionEvent) {
+    private void addString(ActionEvent actionEvent) {
         StackPane newStringStackPane = new StackPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
         popup.setTitle("Add a String to Σ");
-
         TextField label = new TextField();
         label.setPromptText("String");
         label.setStyle("-fx-font-size: 14; -fx-font-family: Roboto;");
@@ -385,29 +384,23 @@ public class MainController implements Initializable {
         label.setTranslateY(-18);
         label.setMaxWidth(130);
         label.setPrefHeight(30);
-
         Button submitNewString = new Button();
         submitNewString.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
         submitNewString.getStyleClass().add("submitNewString-button");
-
         Button removeFocus = new Button();
         removeFocus.setMaxSize(0, 0);
         removeFocus.setTranslateX(-20000);
-
         submitNewString.disableProperty().bind(Bindings.isEmpty(label.textProperty()));
         submitNewString.setText("Add String");
         submitNewString.setStyle("-fx-font-size: 12; -fx-max-width: 73; -fx-pref-height: 28.3; -fx-font-family: Roboto;");
         newStringStackPane.setPrefSize(240, 100);
         submitNewString.setTranslateX(70);
         submitNewString.setTranslateY(-18.5);
-
         submitNewString.setOnAction(event -> {
             handleAddString(label.getText());
             updateSigmaTable();
             label.clear();
         });
-
-
         Button closeWindow = new Button();
         closeWindow.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
         closeWindow.getStyleClass().add("newStringCloseWindow-button");
@@ -417,7 +410,6 @@ public class MainController implements Initializable {
         closeWindow.setOnAction(event -> {
             ((Stage)newStringStackPane.getScene().getWindow()).close();
         });
-
         newStringStackPane.getChildren().addAll(removeFocus, submitNewString, label, closeWindow);
         Scene popupScene = new Scene(newStringStackPane);
         popup.setScene(popupScene);
@@ -432,7 +424,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void addStateButton(ActionEvent actionEvent) {
+    private void addState(ActionEvent actionEvent) {
         StackPane newStateStackPane = new StackPane();
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
@@ -525,8 +517,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void addTransitionButton(ActionEvent actionEvent) {
-
+    private void addTransition(ActionEvent actionEvent) {
         if(automaton.getSigma().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Transition Error");
@@ -559,7 +550,6 @@ public class MainController implements Initializable {
         }
         from.setTranslateY(-68);
         from.setPrefSize(135, 30);
-
 
         ComboBox<String> to = new ComboBox<>();
         to.getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
@@ -617,7 +607,7 @@ public class MainController implements Initializable {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("/com/example/progettoing/Main.css").toExternalForm());
             alert.getDialogPane().getStyleClass().add("transition-alert");
             alert.showAndWait();
-            addTransitionButton(new ActionEvent());
+            addTransition(new ActionEvent());
         }
 
         if (automaton.addTransition(currentState, transitionInput, nextState) == -1) {
@@ -780,15 +770,12 @@ public class MainController implements Initializable {
             copiedText.setLayoutX(originalText.getLayoutX());
             copiedText.setLayoutY(originalText.getLayoutY());
 
-
             return copiedText;
         }
         else {
             return null;
         }
     }
-
-
 
     private void regenerateTransitionsPopup(boolean isAccepted) {
         AnchorPane backgroundAnchorPane = new AnchorPane();
@@ -1044,7 +1031,6 @@ public class MainController implements Initializable {
         double centerX = state.getLayoutX() + state.getWidth() / 2;
         double centerY = state.getLayoutY() + state.getHeight() / 2;
 
-
         CubicCurve curve = new CubicCurve();
         double loopRadius = 40;
         double stateRadius = 50;
@@ -1141,7 +1127,6 @@ public class MainController implements Initializable {
         return curve;
     }
 
-
     private Text createTransitionText(QuadCurve transitionCurve, String transitionInput) {
         double midX = (transitionCurve.getStartX() + transitionCurve.getEndX()) / 2;
         double midY = (transitionCurve.getStartY() + transitionCurve.getEndY()) / 2;
@@ -1180,9 +1165,7 @@ public class MainController implements Initializable {
                 endX - arrowHeadSize * cos - arrowHeadSize * sin, endY - arrowHeadSize * sin + arrowHeadSize * cos,
                 endX - arrowHeadSize * cos + arrowHeadSize * sin, endY - arrowHeadSize * sin - arrowHeadSize * cos
         );
-
         arrow.setFill(Color.BLACK);
-
         return arrow;
     }
 
@@ -1271,7 +1254,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void handleTestString(ActionEvent event) {
+    private void testString(ActionEvent event) {
         if(deltaEmpty) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("String Test Error");
@@ -1299,13 +1282,12 @@ public class MainController implements Initializable {
                 System.out.println("Delta(" + state + ", " + inputSymbol + ") = " + nextState);
             }
         }
-
         generatePath(isAccepted);
         testStringTextField.clear();
     }
 
     @FXML
-    private void handleClear() {
+    private void clearGraph() {
         automaton.clearAll();
         deltaEmpty = true;
         regenerateTransitions(false, false);
